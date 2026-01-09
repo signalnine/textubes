@@ -130,8 +130,8 @@ button:active {
   background: white;
   color: #000;
   font-size: 1rem;
-  /* min-height: 2rem;
-  min-width: 2rem; */
+  min-height: 48px;
+  min-width: 48px;
 }
 
 .node-picker.dark-mode .node-picker-button {
@@ -140,45 +140,24 @@ button:active {
   color: #e0e0e0;
 }
 
-/* Mobile improvements for node picker */
-@media (max-width: 768px) {
+/* Mobile and touch device improvements for node picker */
+@media (max-width: 768px), (hover: none) and (pointer: coarse) {
   .node-picker {
-    padding: 14px;
+    padding: 10px;
   }
 
   .node-picker-select {
-    padding: 14px 18px;
-    font-size: 36px;
-    min-height: 52px;
-    min-width: 200px;
+    padding: 10px 14px;
+    font-size: 16px;
+    min-height: 44px;
+    min-width: 160px;
   }
 
   .node-picker-button {
-    padding: 14px 18px;
-    font-size: 24px;
-    min-height: 52px;
-    min-width: 52px;
-  }
-}
-
-/* Touch device improvements for node picker */
-@media (hover: none) and (pointer: coarse) {
-  .node-picker {
-    padding: 14px;
-  }
-
-  .node-picker-select {
-    padding: 14px 18px;
-    font-size: 36px;
-    min-height: 52px;
-    min-width: 200px;
-  }
-
-  .node-picker-button {
-    padding: 14px 18px;
-    font-size: 24px;
-    min-height: 52px;
-    min-width: 52px;
+    padding: 10px 14px;
+    font-size: 16px;
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 
