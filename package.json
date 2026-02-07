@@ -7,7 +7,7 @@
     "@types/bun": "^1.2.23"
   },
   "scripts": {
-    "dev": "bun ./index.html",
+    "dev": "bun --hot ./server.ts",
     "build": "bun build ./index.html --minify --outdir=dist"
   },
   "peerDependencies": {
