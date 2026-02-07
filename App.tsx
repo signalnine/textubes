@@ -99,7 +99,7 @@ const loadFromStorage = <T,>(key: string, defaultValue: T): T => {
   }
 };
 
-export default function App() {
+export default function App({ initialFlowId }: { initialFlowId?: string } = {}) {
   const [nodes, setNodes] = useState<Node<NodeData>[]>(() =>
     loadFromStorage(STORAGE_KEY_NODES, defaultNodes)
   );
@@ -110,6 +110,36 @@ export default function App() {
     loadFromStorage(STORAGE_KEY_DARK_MODE, false)
   );
   const [showHelp, setShowHelp] = useState(false);
+
+  // Load flow from API when initialFlowId is provided (fork mode)
+  useEffect(() => {
+    if (!initialFlowId) return;
+
+    fetch(`/api/flows/${initialFlowId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Flow not found");
+        return res.json();
+      })
+      .then((flowData: any) => {
+        if (!flowData.nodes || !flowData.edges) {
+          alert("Invalid flow data");
+          return;
+        }
+        const nodesWithDarkMode = flowData.nodes.map((node: any) => ({
+          ...node,
+          data: { ...node.data, isDarkMode: flowData.darkMode ?? isDarkMode },
+        }));
+        setNodes(nodesWithDarkMode);
+        setEdges(flowData.edges);
+        if (typeof flowData.darkMode === "boolean") {
+          setIsDarkMode(flowData.darkMode);
+        }
+      })
+      .catch((err: Error) => {
+        console.error("Failed to load flow:", err);
+        alert("Could not load shared flow. It may not exist.");
+      });
+  }, [initialFlowId]);
 
   const reactFlowInstanceRef = useRef<ReactFlowInstance | null>(null);
 

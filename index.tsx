@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+import Router from "./components/Router";
 
 const root = createRoot(document.body);
-root.render(<App />);
+root.render(<Router />);
