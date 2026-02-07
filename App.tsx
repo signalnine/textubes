@@ -311,8 +311,12 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
       const { id } = await res.json();
       const url = `${window.location.origin}/s/${id}`;
 
-      await navigator.clipboard.writeText(url);
-      alert(`Published! Link copied to clipboard:\n${url}`);
+      try {
+        await navigator.clipboard.writeText(url);
+        alert(`Published! Link copied to clipboard:\n${url}`);
+      } catch {
+        alert(`Published!\n${url}`);
+      }
     } catch (err) {
       console.error("Publish error:", err);
       alert("Failed to publish flow. Is the server running?");
