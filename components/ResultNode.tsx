@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Position, useNodesData, useReactFlow, type NodeProps, type Node, useNodeConnections, useNodes, useEdges } from '@xyflow/react';
 import type { NodeData } from '../App';
 import NodeContainer from './NodeContainer';
@@ -25,6 +25,13 @@ export default function ResultNode({ data, id, selected, type }: NodeProps<Node<
   const firstConnection = connections[0];
   const firstNode = sourceIds.length > 0 ? nodesData[0] : null;
   const displayValue = getSourceValue(firstNode, firstConnection);
+
+  // Write displayValue back to data.value so PublishedView can read it
+  useEffect(() => {
+    if (data.value !== displayValue) {
+      updateNodeData(id, { value: displayValue });
+    }
+  }, [displayValue, data.value, id, updateNodeData]);
 
   // Check if there are any generator nodes upstream
   const hasUpstreamGenerators = useMemo(() => {
