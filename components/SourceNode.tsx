@@ -45,6 +45,7 @@ export default function SourceNode({ data, id, selected, type }: NodeProps<Node<
           value={data.value || ''}
           onChange={handleChange}
           placeholder="Enter text here..."
+          maxLength={10000}
         />
         <HelpLabel
           type="source"
