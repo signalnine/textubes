@@ -9,9 +9,10 @@ type NodePickerProps = {
   onExport: () => void;
   onImport: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onLoadPreset: (filename: string) => void;
+  onPublish: () => void;
 };
 
-export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, onExport, onImport, onLoadPreset }: NodePickerProps) {
+export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, onExport, onImport, onLoadPreset, onPublish }: NodePickerProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [presets, setPresets] = useState<PresetMetadata[]>([]);
 
@@ -91,6 +92,13 @@ export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, on
         title="Export flow as JSON"
       >
         Save
+      </button>
+      <button
+        className="node-picker-button"
+        onClick={onPublish}
+        title="Publish flow and copy share link"
+      >
+        Publish
       </button>
       <button
         className="node-picker-button"

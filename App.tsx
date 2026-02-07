@@ -287,6 +287,38 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     }
   }, [isDarkMode]);
 
+  const publishFlow = useCallback(async () => {
+    const flowData = {
+      version: 1,
+      nodes,
+      edges,
+      darkMode: isDarkMode,
+    };
+
+    try {
+      const res = await fetch("/api/flows", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(flowData),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`Failed to publish: ${err.error || "Unknown error"}`);
+        return;
+      }
+
+      const { id } = await res.json();
+      const url = `${window.location.origin}/s/${id}`;
+
+      await navigator.clipboard.writeText(url);
+      alert(`Published! Link copied to clipboard:\n${url}`);
+    } catch (err) {
+      console.error("Publish error:", err);
+      alert("Failed to publish flow. Is the server running?");
+    }
+  }, [nodes, edges, isDarkMode]);
+
   const clearCanvas = useCallback(() => {
     if (confirm('Clear all nodes and connections? This cannot be undone.')) {
       setNodes([]);
@@ -368,6 +400,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         onExport={exportFlow}
         onImport={importFlow}
         onLoadPreset={loadPreset}
+        onPublish={publishFlow}
       />
       <button
         className="help-button"
