@@ -62,7 +62,7 @@ export default function PublishedView() {
 
   // Find source and result nodes
   const sourceNodes = useMemo(
-    () => nodes.filter((n) => n.type === "source"),
+    () => nodes.filter((n) => n.type === "source" && !n.data.lockedInPublished),
     [nodes]
   );
   const resultNodes = useMemo(

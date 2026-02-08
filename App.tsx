@@ -23,6 +23,7 @@ export type NodeData = {
   value?: string;
   isDarkMode?: boolean;
   helpActive?: boolean;
+  lockedInPublished?: boolean;
 };
 
 const nodeTypes = getNodeTypes();
