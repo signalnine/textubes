@@ -171,7 +171,7 @@ export default function PublishedView() {
             fontSize: "0.875rem",
           }}
         >
-          Fork
+          Remix
         </a>
       </div>
 

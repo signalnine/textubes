@@ -119,6 +119,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     }
   });
   const [showHelp, setShowHelp] = useState(false);
+  const [publishedUrl, setPublishedUrl] = useState("");
 
   // Load flow from API when initialFlowId is provided (fork mode)
   useEffect(() => {
@@ -326,12 +327,12 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
 
       const { id } = await res.json();
       const url = `${window.location.origin}/s/${id}`;
+      setPublishedUrl(url);
 
       try {
         await navigator.clipboard.writeText(url);
-        alert(`Published! Link copied to clipboard:\n${url}`);
       } catch {
-        alert(`Published!\n${url}`);
+        // clipboard not available — URL is still shown inline
       }
     } catch (err) {
       console.error("Publish error:", err);
@@ -430,23 +431,13 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         onImport={importFlow}
         onLoadPreset={loadPreset}
         onPublish={publishFlow}
+        publishedUrl={publishedUrl}
+        onClearPublishedUrl={() => setPublishedUrl("")}
         title={title}
         onTitleChange={setTitle}
+        onHelp={() => setShowHelp(true)}
+        onClear={clearCanvas}
       />
-      <button
-        className="help-button"
-        onClick={() => setShowHelp(true)}
-        title="Help"
-      >
-        ❓
-      </button>
-      <button
-        className="clear-canvas-button"
-        onClick={clearCanvas}
-        title="Clear canvas"
-      >
-        🗑️
-      </button>
       <ReactFlow
         nodes={nodes}
         edges={edges}

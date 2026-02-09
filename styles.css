@@ -89,7 +89,7 @@ button:active {
   left: 10px;
   z-index: 10;
   background: white;
-  padding: 12px;
+  padding: .15rem 1rem;
   border-radius: .5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -112,7 +112,7 @@ button:active {
   font-size: .875rem;
   font-family: inherit;
   font-weight: bold;
-  min-height: 48px;
+  min-height: 1rem;
   width: 160px;
 }
 
@@ -151,14 +151,14 @@ button:active {
 }
 
 .node-picker-button {
-  padding: .5rem;
+  padding: .35rem;
   border: 1px solid #ccc;
   border-radius: .5rem;
   cursor: pointer;
   background: white;
   color: #000;
-  font-size: 1rem;
-  min-height: 48px;
+  font-size: .8rem;
+  min-height: 1rem;
   min-width: 48px;
 }
 
@@ -166,6 +166,78 @@ button:active {
   border: 1px solid #555;
   background: #3a3a3a;
   color: #e0e0e0;
+}
+
+.node-picker-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.node-picker-divider {
+  width: 1px;
+  height: 24px;
+  background: #ccc;
+  flex-shrink: 0;
+}
+
+.node-picker.dark-mode .node-picker-divider {
+  background: #555;
+}
+
+.published-url-inline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .75rem;
+  padding: .25rem .5rem;
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+  background: #f0f7ff;
+  max-width: 280px;
+  overflow: hidden;
+}
+
+.node-picker.dark-mode .published-url-inline {
+  border-color: #555;
+  background: #2a3a4a;
+}
+
+.published-url-inline a {
+  color: #0173b2;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.published-url-inline a:hover {
+  text-decoration: underline;
+}
+
+.node-picker.dark-mode .published-url-inline a {
+  color: #5ba3ff;
+}
+
+.published-url-copy,
+.published-url-dismiss {
+  flex-shrink: 0;
+  padding: 0 2px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: .75rem;
+  line-height: 1;
+  color: #666;
+}
+
+.published-url-dismiss {
+  font-size: 1rem;
+}
+
+.node-picker.dark-mode .published-url-copy,
+.node-picker.dark-mode .published-url-dismiss {
+  color: #aaa;
 }
 
 /* Mobile and touch device improvements for node picker */
@@ -193,6 +265,10 @@ button:active {
     font-size: 16px;
     min-height: 44px;
     min-width: 44px;
+  }
+
+  .node-picker-divider {
+    height: 20px;
   }
 }
 
@@ -520,91 +596,6 @@ button:active {
   color: #e0e0e0;
 }
 
-/* Clear canvas button */
-.clear-canvas-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10;
-  padding: .5rem;
-  border: 1px solid #ccc;
-  border-radius: .5rem;
-  cursor: pointer;
-  background: white;
-  color: #000;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.dark-mode .clear-canvas-button {
-  border: 1px solid #555;
-  background: #2a2a2a;
-  color: #e0e0e0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-/* Mobile improvements for clear canvas button */
-@media (max-width: 768px) {
-  .clear-canvas-button {
-    padding: 14px 18px;
-    font-size: 24px;
-    min-height: 52px;
-    min-width: 52px;
-  }
-}
-
-/* Touch device improvements for clear canvas button */
-@media (hover: none) and (pointer: coarse) {
-  .clear-canvas-button {
-    padding: 14px 18px;
-    font-size: 24px;
-    min-height: 52px;
-    min-width: 52px;
-  }
-}
-
-/* Help button */
-.help-button {
-  position: absolute;
-  top: 10px;
-  right: 60px;
-  z-index: 10;
-  padding: .5rem;
-  border: 1px solid #ccc;
-  border-radius: .5rem;
-  cursor: pointer;
-  background: white;
-  color: #000;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.dark-mode .help-button {
-  border: 1px solid #555;
-  background: #2a2a2a;
-  color: #e0e0e0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-@media (max-width: 768px) {
-  .help-button {
-    padding: 14px 18px;
-    font-size: 24px;
-    min-height: 52px;
-    min-width: 52px;
-    right: 70px;
-  }
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .help-button {
-    padding: 14px 18px;
-    font-size: 24px;
-    min-height: 52px;
-    min-width: 52px;
-    right: 70px;
-  }
-}
 
 /* Help modal */
 .help-modal-overlay {
