@@ -103,6 +103,34 @@ button:active {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
+.node-picker-title {
+  padding: .5rem;
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+  background: white;
+  color: #000;
+  font-size: .875rem;
+  font-family: inherit;
+  font-weight: bold;
+  min-height: 48px;
+  width: 160px;
+}
+
+.node-picker-title::placeholder {
+  font-weight: normal;
+  color: #999;
+}
+
+.node-picker.dark-mode .node-picker-title {
+  border: 1px solid #555;
+  background: #3a3a3a;
+  color: #e0e0e0;
+}
+
+.node-picker.dark-mode .node-picker-title::placeholder {
+  color: #777;
+}
+
 .node-picker-select {
   padding: .5rem;
   border: 1px solid #ccc;
@@ -144,6 +172,13 @@ button:active {
 @media (max-width: 768px), (hover: none) and (pointer: coarse) {
   .node-picker {
     padding: 10px;
+  }
+
+  .node-picker-title {
+    padding: 10px 14px;
+    font-size: 16px;
+    min-height: 44px;
+    width: 140px;
   }
 
   .node-picker-select {
@@ -591,7 +626,8 @@ button:active {
   padding: 24px;
   max-width: 500px;
   max-height: 80vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
@@ -633,13 +669,23 @@ button:active {
   color: #fff;
 }
 
+.help-modal-content {
+  overflow-y: auto;
+}
+
 .help-modal-content p {
-  margin: 0 0 12px 0;
-  line-height: 1.5;
+  margin: 0 0 12px 0 !important;
+  line-height: 1.25 !important;
 }
 
 .help-modal-content p:last-child {
   margin-bottom: 0;
+}
+
+.help-modal-content ul {
+  margin: 0 0 12px 0 !important;
+  padding-left: 1.5rem !important;
+  line-height: 1.25 !important;
 }
 
 /* Template node token handle wrapper */

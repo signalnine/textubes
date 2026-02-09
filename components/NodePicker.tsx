@@ -10,9 +10,11 @@ type NodePickerProps = {
   onImport: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onLoadPreset: (filename: string) => void;
   onPublish: () => void;
+  title: string;
+  onTitleChange: (title: string) => void;
 };
 
-export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, onExport, onImport, onLoadPreset, onPublish }: NodePickerProps) {
+export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, onExport, onImport, onLoadPreset, onPublish, title, onTitleChange }: NodePickerProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [presets, setPresets] = useState<PresetMetadata[]>([]);
 
@@ -28,6 +30,13 @@ export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, on
 
   return (
     <div className={`node-picker ${isDarkMode ? 'dark-mode' : ''}`}>
+      <input
+        type="text"
+        className="node-picker-title nodrag"
+        value={title}
+        onChange={(e) => onTitleChange(e.target.value)}
+        placeholder="Untitled flow"
+      />
       <select
         className="node-picker-select"
         onChange={(e) => {

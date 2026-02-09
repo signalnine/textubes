@@ -17,7 +17,7 @@ import "@xyflow/react/dist/style.css";
 import { getNodeTypes, getInitialNodeData } from "./nodeRegistry";
 import NodePicker from "./components/NodePicker";
 import { loadPresetFile, validatePresetData } from "./utils/presetUtils";
-import { HELP_TEXT } from "./components/HelpNode";
+import { HELP_CONTENT } from "./components/HelpNode";
 
 export type NodeData = {
   value?: string;
@@ -31,6 +31,7 @@ const nodeTypes = getNodeTypes();
 const STORAGE_KEY_NODES = "textubes-nodes";
 const STORAGE_KEY_EDGES = "textubes-edges";
 const STORAGE_KEY_DARK_MODE = "textubes-dark-mode";
+const STORAGE_KEY_TITLE = "textubes-title";
 
 const defaultNodes: Node<NodeData>[] = [
   {
@@ -110,6 +111,13 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
   const [isDarkMode, setIsDarkMode] = useState(() =>
     loadFromStorage(STORAGE_KEY_DARK_MODE, false)
   );
+  const [title, setTitle] = useState(() => {
+    try {
+      return localStorage.getItem(STORAGE_KEY_TITLE) ?? "";
+    } catch {
+      return "";
+    }
+  });
   const [showHelp, setShowHelp] = useState(false);
 
   // Load flow from API when initialFlowId is provided (fork mode)
@@ -134,6 +142,9 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         setEdges(flowData.edges);
         if (typeof flowData.darkMode === "boolean") {
           setIsDarkMode(flowData.darkMode);
+        }
+        if (typeof flowData.title === "string") {
+          setTitle(flowData.title);
         }
       })
       .catch((err: Error) => {
@@ -169,6 +180,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
   const exportFlow = useCallback(() => {
     const flowData = {
       version: 1,
+      title,
       nodes,
       edges,
       darkMode: isDarkMode,
@@ -185,7 +197,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-  }, [nodes, edges, isDarkMode]);
+  }, [nodes, edges, isDarkMode, title]);
 
   const importFlow = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -218,6 +230,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         if (typeof flowData.darkMode === 'boolean') {
           setIsDarkMode(flowData.darkMode);
         }
+        setTitle(typeof flowData.title === 'string' ? flowData.title : '');
       } catch (error) {
         console.error('Error importing flow:', error);
         alert('Error loading flow file. Please check the file format.');
@@ -281,6 +294,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
       // Clear canvas and load preset
       setNodes(offsetNodes);
       setEdges(presetData.edges);
+      setTitle(typeof presetData.title === 'string' ? presetData.title : '');
 
     } catch (error) {
       console.error('Error loading preset:', error);
@@ -291,6 +305,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
   const publishFlow = useCallback(async () => {
     const flowData = {
       version: 1,
+      title,
       nodes,
       edges,
       darkMode: isDarkMode,
@@ -322,12 +337,13 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
       console.error("Publish error:", err);
       alert("Failed to publish flow. Is the server running?");
     }
-  }, [nodes, edges, isDarkMode]);
+  }, [nodes, edges, isDarkMode, title]);
 
   const clearCanvas = useCallback(() => {
     if (confirm('Clear all nodes and connections? This cannot be undone.')) {
       setNodes([]);
       setEdges([]);
+      setTitle('');
     }
   }, []);
 
@@ -386,6 +402,14 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     }
   }, [isDarkMode]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_TITLE, title);
+    } catch (error) {
+      console.error("Error saving title to localStorage:", error);
+    }
+  }, [title]);
+
   // Update all nodes' dark mode state whenever it changes
   useEffect(() => {
     setNodes((prevNodes) =>
@@ -406,6 +430,8 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         onImport={importFlow}
         onLoadPreset={loadPreset}
         onPublish={publishFlow}
+        title={title}
+        onTitleChange={setTitle}
       />
       <button
         className="help-button"
@@ -448,8 +474,8 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
             <button className="help-modal-close" onClick={() => setShowHelp(false)}>×</button>
             <h2>Welcome to Textubes!</h2>
             <div className="help-modal-content">
-              {HELP_TEXT.split('\n\n').slice(1).map((para, i) => (
-                <p key={i}>{para}</p>
+              {HELP_CONTENT.map((el, i) => (
+                <div key={i}>{el}</div>
               ))}
             </div>
           </div>

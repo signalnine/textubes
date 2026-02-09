@@ -131,7 +131,10 @@ Following [React Flow's computing flows documentation](https://reactflow.dev/lea
 
 ```typescript
 export type NodeData = {
-  value: string;
+  value?: string;
+  isDarkMode?: boolean;
+  helpActive?: boolean;
+  lockedInPublished?: boolean;
 };
 ```
 
@@ -166,7 +169,7 @@ The registry automatically:
 All node components are in `components/` directory.
 
 ### Input/Generator Nodes
-- **SourceNode** - Manual text input via textarea
+- **SourceNode** - Manual text input via textarea. Has a "Lock in published view" checkbox — when checked, the node is hidden from the published view form (but still participates in transformations via the hidden React Flow instance).
 - **RandomNode** - Generates random alphanumeric strings (configurable length)
 - **CopypastaNode** - Dropdown selector for pre-written text samples (Lorem Ipsum, Bee Movie, etc.)
 
@@ -438,6 +441,20 @@ The application includes save/load functionality for persisting and restoring fl
 - Keys: `textubes-nodes`, `textubes-edges`, `textubes-dark-mode`
 - Restores state on page load
 - Empty arrays are treated as "show defaults" rather than blank canvas
+
+## Published View (Sharing)
+
+Flows can be published and shared via `/s/{flowId}` URLs. The published view (`components/PublishedView.tsx`) presents a simplified form UI:
+
+- **Source nodes** render as editable textareas (inputs)
+- **Result nodes** render as read-only textareas with copy buttons (outputs)
+- A hidden React Flow instance runs all transformation nodes in the background
+- Source nodes with `lockedInPublished: true` are excluded from the form UI but still participate in the hidden React Flow pipeline, so their text flows through transformations normally
+- The `/edit/{flowId}` "Fork" link lets viewers clone the flow into the editor
+
+### API
+- `POST /api/flows` — publish a flow, returns `{ id }`
+- `GET /api/flows/{id}` — fetch a published flow's data (nodes, edges, darkMode)
 
 ## TypeScript Setup
 

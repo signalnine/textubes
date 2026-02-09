@@ -20,6 +20,7 @@ export default function PublishedView() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [title, setTitle] = useState("");
 
   // Extract flow ID from URL
   const flowId = useMemo(() => {
@@ -46,6 +47,10 @@ export default function PublishedView() {
         }
         const dark = flowData.darkMode ?? false;
         setIsDarkMode(dark);
+        if (typeof flowData.title === "string" && flowData.title) {
+          setTitle(flowData.title);
+          document.title = `${flowData.title} — Textubes`;
+        }
         const nodesWithDarkMode = flowData.nodes.map((node: any) => ({
           ...node,
           data: { ...node.data, isDarkMode: dark },
@@ -178,6 +183,19 @@ export default function PublishedView() {
           padding: "2rem",
         }}
       >
+        {/* Title */}
+        {title && (
+          <h1
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: "bold",
+              marginBottom: "1.5rem",
+            }}
+          >
+            {title}
+          </h1>
+        )}
+
         {/* Inputs */}
         {sourceNodes.map((node) => (
           <div key={node.id} style={{ marginBottom: "1.5rem" }}>
@@ -262,12 +280,11 @@ export default function PublishedView() {
                   Copy
                 </button>
               </div>
-              <textarea
-                readOnly
-                value={value || "No output"}
+              <div
                 style={{
                   width: "100%",
-                  minHeight: "100px",
+                  maxHeight: "500px",
+                  overflowY: "auto",
                   padding: "0.5rem",
                   fontSize: "0.875rem",
                   fontFamily:
@@ -277,9 +294,11 @@ export default function PublishedView() {
                   background: resultBg,
                   color: value ? textColor : isDarkMode ? "#777" : "#999",
                   whiteSpace: "pre-wrap",
-                  resize: "vertical",
+                  wordBreak: "break-word",
                 }}
-              />
+              >
+                {value || "No output"}
+              </div>
             </div>
           );
         })}
