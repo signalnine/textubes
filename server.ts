@@ -3,12 +3,33 @@ import { initDb, saveFlow, getFlow } from "./db";
 
 const MAX_BODY_SIZE = 500 * 1024; // 500KB
 
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;")
+          .replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function generateDescription(flow: any): string {
+  if (!flow.nodes || !Array.isArray(flow.nodes)) {
+    return "A text transformation pipeline on Textubes.";
+  }
+  const sources = flow.nodes.filter((n: any) => n.type === "source").length;
+  const results = flow.nodes.filter((n: any) => n.type === "result").length;
+  const transforms = flow.nodes.filter((n: any) =>
+    !["source", "result", "help"].includes(n.type)
+  ).length;
+  return `A text pipeline with ${sources} input${sources !== 1 ? "s" : ""}, ` +
+         `${transforms} transformation${transforms !== 1 ? "s" : ""}, ` +
+         `and ${results} output${results !== 1 ? "s" : ""}.`;
+}
+
 export function startServer(
   options: { port?: number; dbPath?: string } = {}
 ) {
   const db = initDb(options.dbPath ?? "textubes.db");
+  let cachedHtml: string | null = null;
+  let server: ReturnType<typeof Bun.serve>;
 
-  return Bun.serve({
+  server = Bun.serve({
     port: options.port ?? 3000,
     routes: {
       "/api/flows": {
@@ -60,7 +81,39 @@ export function startServer(
       },
       // SPA routes serve the frontend HTML
       "/": index,
-      "/s/:id": index,
+      "/s/:id": {
+        GET: async (req) => {
+          const id = req.params.id;
+          const flow = getFlow(db, id) as any;
+
+          if (!cachedHtml) {
+            const res = await fetch(`${server.url}`);
+            cachedHtml = await res.text();
+          }
+
+          if (!flow) {
+            return new Response(cachedHtml, {
+              headers: { "Content-Type": "text/html" },
+            });
+          }
+
+          const title = flow.title || "Textubes";
+          const desc = generateDescription(flow);
+
+          const html = cachedHtml
+            .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(title)} — Textubes</title>`)
+            .replace(/(<meta name="title" content=").*?(")/,         `$1${escapeHtml(title)} — Textubes$2`)
+            .replace(/(<meta name="description" content=").*?(")/,   `$1${escapeHtml(desc)}$2`)
+            .replace(/(<meta property="og:title" content=").*?(")/,  `$1${escapeHtml(title)}$2`)
+            .replace(/(<meta property="og:description" content=").*?(")/,  `$1${escapeHtml(desc)}$2`)
+            .replace(/(<meta property="twitter:title" content=").*?(")/,   `$1${escapeHtml(title)}$2`)
+            .replace(/(<meta property="twitter:description" content=").*?(")/,  `$1${escapeHtml(desc)}$2`);
+
+          return new Response(html, {
+            headers: { "Content-Type": "text/html" },
+          });
+        },
+      },
       "/edit/:id": index,
     },
     fetch(req) {
@@ -78,6 +131,8 @@ export function startServer(
       console: true,
     } : undefined,
   });
+
+  return server;
 }
 
 // Start the server when run directly
