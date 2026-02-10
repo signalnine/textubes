@@ -58,8 +58,20 @@ export function startServer(
           return Response.json(flow);
         },
       },
-      // All non-API routes serve the frontend HTML
-      "/*": index,
+      // SPA routes serve the frontend HTML
+      "/": index,
+      "/s/:id": index,
+      "/edit/:id": index,
+    },
+    fetch(req) {
+      const url = new URL(req.url);
+      if (url.pathname === "/textubes.png") {
+        return new Response(Bun.file("./textubes.png"));
+      }
+      // Unknown routes get the SPA HTML too
+      return new Response(Bun.file(import.meta.dir + "/index.html"), {
+        headers: { "Content-Type": "text/html" },
+      });
     },
     development: process.env.NODE_ENV !== "production" ? {
       hmr: true,
