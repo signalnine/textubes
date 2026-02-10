@@ -61,10 +61,10 @@ export function startServer(
       // All non-API routes serve the frontend HTML
       "/*": index,
     },
-    development: {
+    development: process.env.NODE_ENV !== "production" ? {
       hmr: true,
       console: true,
-    },
+    } : undefined,
   });
 }
 

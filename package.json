@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "bun --hot ./server.ts",
+    "start": "NODE_ENV=production bun ./server.ts",
     "build": "bun build ./index.html --minify --outdir=dist"
   },
   "peerDependencies": {
