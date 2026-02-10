@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
 import App from "../App";
-
-// Lazy-load PublishedView only when needed
-const LazyPublishedView = () => {
-  const [Component, setComponent] = useState<React.ComponentType<any> | null>(null);
-  useEffect(() => {
-    import("./PublishedView").then((mod) => setComponent(() => mod.default));
-  }, []);
-  if (!Component) return <div style={{ padding: "2rem" }}>Loading...</div>;
-  return <Component />;
-};
+import PublishedView from "./PublishedView";
 
 type Route =
   | { type: "editor"; flowId?: string }
@@ -44,7 +35,7 @@ export default function Router() {
 
   switch (route.type) {
     case "published":
-      return <LazyPublishedView />;
+      return <PublishedView />;
     case "editor":
       return <App initialFlowId={route.flowId} />;
   }
