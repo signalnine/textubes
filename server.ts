@@ -70,5 +70,5 @@ export function startServer(
 
 // Start the server when run directly
 if (import.meta.main) {
-  startServer();
+  startServer({ port: Number(process.env.PORT) || 3000 });
 }

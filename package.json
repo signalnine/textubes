@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "bun --hot ./server.ts",
     "start": "NODE_ENV=production bun ./server.ts",
-    "build": "bun build ./index.html --minify --outdir=dist"
+    "build": "bun build ./index.html --minify --outdir=dist",
+    "compile": "bun build --compile --outfile=textubes ./server.ts"
   },
   "peerDependencies": {
     "typescript": "^5"
