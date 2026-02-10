@@ -10,6 +10,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { getNodeTypes } from "../nodeRegistry";
+import { findUpstreamNodes, isGeneratorNode } from "../utils/graphUtils";
 import type { NodeData } from "../App";
 
 const nodeTypes = getNodeTypes();
@@ -98,6 +99,35 @@ export default function PublishedView() {
       setEdges((prev) => applyEdgeChanges(changes, prev)),
     []
   );
+
+  // Regenerate upstream generator nodes for a result
+  const regenerateUpstream = useCallback(
+    (resultNodeId: string) => {
+      const timestamp = Date.now();
+      const upstreamNodeIds = findUpstreamNodes(resultNodeId, edges);
+      setNodes((prev) =>
+        prev.map((n) =>
+          upstreamNodeIds.includes(n.id) && isGeneratorNode(n.type)
+            ? { ...n, data: { ...n.data, regenerateTimestamp: timestamp } }
+            : n
+        )
+      );
+    },
+    [edges]
+  );
+
+  // Precompute which result nodes have upstream generators
+  const resultNodesWithGenerators = useMemo(() => {
+    const set = new Set<string>();
+    for (const node of resultNodes) {
+      const upstreamIds = findUpstreamNodes(node.id, edges);
+      const hasGenerator = nodes.some(
+        (n) => upstreamIds.includes(n.id) && isGeneratorNode(n.type)
+      );
+      if (hasGenerator) set.add(node.id);
+    }
+    return set;
+  }, [resultNodes, edges, nodes]);
 
   // Copy result to clipboard
   const copyResult = useCallback((value: string) => {
@@ -263,22 +293,40 @@ export default function PublishedView() {
                 >
                   Result
                 </label>
-                <button
-                  onClick={() => copyResult(value)}
-                  disabled={!value}
-                  style={{
-                    padding: "0.25rem 0.75rem",
-                    fontSize: "0.75rem",
-                    border: `1px solid ${borderColor}`,
-                    borderRadius: "0.5rem",
-                    background: inputBg,
-                    color: textColor,
-                    cursor: value ? "pointer" : "not-allowed",
-                    opacity: value ? 1 : 0.5,
-                  }}
-                >
-                  Copy
-                </button>
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  {resultNodesWithGenerators.has(node.id) && (
+                    <button
+                      onClick={() => regenerateUpstream(node.id)}
+                      style={{
+                        padding: "0.25rem 0.75rem",
+                        fontSize: "0.75rem",
+                        border: `1px solid ${borderColor}`,
+                        borderRadius: "0.5rem",
+                        background: inputBg,
+                        color: textColor,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Regenerate
+                    </button>
+                  )}
+                  <button
+                    onClick={() => copyResult(value)}
+                    disabled={!value}
+                    style={{
+                      padding: "0.25rem 0.75rem",
+                      fontSize: "0.75rem",
+                      border: `1px solid ${borderColor}`,
+                      borderRadius: "0.5rem",
+                      background: inputBg,
+                      color: textColor,
+                      cursor: value ? "pointer" : "not-allowed",
+                      opacity: value ? 1 : 0.5,
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
               </div>
               <div
                 style={{
