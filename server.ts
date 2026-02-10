@@ -121,6 +121,21 @@ export function startServer(
       if (url.pathname === "/textubes.png") {
         return new Response(Bun.file("./textubes.png"));
       }
+      // Serve wordlist JSON files
+      if (url.pathname.startsWith("/wordlists/") && url.pathname.endsWith(".json")) {
+        const file = Bun.file("." + url.pathname);
+        return file.exists().then(exists => {
+          if (exists) {
+            return new Response(file, {
+              headers: { "Content-Type": "application/json" },
+            });
+          }
+          return new Response(JSON.stringify({ error: "Not found" }), {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+          });
+        });
+      }
       // Unknown routes get the SPA HTML too
       return new Response(Bun.file(import.meta.dir + "/index.html"), {
         headers: { "Content-Type": "text/html" },

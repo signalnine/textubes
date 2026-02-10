@@ -30,7 +30,7 @@ export default function RandomCountryNode({ id, data, selected, type }: NodeProp
       return;
     }
 
-    fetch('/textubes/wordlists/countries.json')
+    fetch('/wordlists/countries.json')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to load word list');

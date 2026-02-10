@@ -30,7 +30,7 @@ export default function RandomInterjectionNode({ id, data, selected, type }: Nod
       return;
     }
 
-    fetch('/textubes/wordlists/interjections.json')
+    fetch('/wordlists/interjections.json')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to load word list');

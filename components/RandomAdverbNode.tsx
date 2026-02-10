@@ -30,7 +30,7 @@ export default function RandomAdverbNode({ id, data, selected, type }: NodeProps
       return;
     }
 
-    fetch('/textubes/wordlists/adverbs.json')
+    fetch('/wordlists/adverbs.json')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to load word list');

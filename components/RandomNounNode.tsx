@@ -30,7 +30,7 @@ export default function RandomNounNode({ id, data, selected, type }: NodeProps<N
       return;
     }
 
-    fetch('/textubes/wordlists/nouns.json')
+    fetch('/wordlists/nouns.json')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to load word list');
