@@ -391,6 +391,87 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     setEdges(prev => prev.map(e => ({ ...e, selected: false })).concat(newEdges));
   }, [selectedNodes, selectedEdges, isDarkMode]);
 
+  const arrangeSelectedNodes = useCallback((operation: string) => {
+    const rfInstance = reactFlowInstanceRef.current;
+    if (!rfInstance || selectedNodes.length < 2) return;
+
+    // Collect measured dimensions
+    const measured: { id: string; x: number; y: number; w: number; h: number }[] = [];
+    for (const node of selectedNodes) {
+      const internal = rfInstance.getInternalNode(node.id);
+      const w = internal?.measured?.width;
+      const h = internal?.measured?.height;
+      if (w == null || h == null) continue;
+      measured.push({ id: node.id, x: node.position.x, y: node.position.y, w, h });
+    }
+    if (measured.length < 2) return;
+
+    const newPositions = new Map<string, { x: number; y: number }>();
+
+    switch (operation) {
+      case 'align-left': {
+        const minX = Math.min(...measured.map(n => n.x));
+        for (const n of measured) newPositions.set(n.id, { x: minX, y: n.y });
+        break;
+      }
+      case 'align-center': {
+        const avgCX = measured.reduce((sum, n) => sum + n.x + n.w / 2, 0) / measured.length;
+        for (const n of measured) newPositions.set(n.id, { x: avgCX - n.w / 2, y: n.y });
+        break;
+      }
+      case 'align-right': {
+        const maxRight = Math.max(...measured.map(n => n.x + n.w));
+        for (const n of measured) newPositions.set(n.id, { x: maxRight - n.w, y: n.y });
+        break;
+      }
+      case 'align-top': {
+        const minY = Math.min(...measured.map(n => n.y));
+        for (const n of measured) newPositions.set(n.id, { x: n.x, y: minY });
+        break;
+      }
+      case 'align-middle': {
+        const avgMY = measured.reduce((sum, n) => sum + n.y + n.h / 2, 0) / measured.length;
+        for (const n of measured) newPositions.set(n.id, { x: n.x, y: avgMY - n.h / 2 });
+        break;
+      }
+      case 'align-bottom': {
+        const maxBottom = Math.max(...measured.map(n => n.y + n.h));
+        for (const n of measured) newPositions.set(n.id, { x: n.x, y: maxBottom - n.h });
+        break;
+      }
+      case 'distribute-h': {
+        if (measured.length < 3) return;
+        const sorted = [...measured].sort((a, b) => a.x - b.x);
+        const first = sorted[0];
+        const last = sorted[sorted.length - 1];
+        const totalSpan = last.x - first.x;
+        const step = totalSpan / (sorted.length - 1);
+        for (let i = 0; i < sorted.length; i++) {
+          newPositions.set(sorted[i].id, { x: first.x + step * i, y: sorted[i].y });
+        }
+        break;
+      }
+      case 'distribute-v': {
+        if (measured.length < 3) return;
+        const sorted = [...measured].sort((a, b) => a.y - b.y);
+        const first = sorted[0];
+        const last = sorted[sorted.length - 1];
+        const totalSpan = last.y - first.y;
+        const step = totalSpan / (sorted.length - 1);
+        for (let i = 0; i < sorted.length; i++) {
+          newPositions.set(sorted[i].id, { x: sorted[i].x, y: first.y + step * i });
+        }
+        break;
+      }
+    }
+
+    if (newPositions.size === 0) return;
+    setNodes(prev => prev.map(node => {
+      const pos = newPositions.get(node.id);
+      return pos ? { ...node, position: pos } : node;
+    }));
+  }, [selectedNodes]);
+
   // Keyboard shortcut: Cmd+D / Ctrl+D to duplicate selection
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -525,6 +606,34 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
               <button className="selection-panel-button" onClick={duplicateSelection}>
                 Duplicate
               </button>
+              {selectedNodes.length >= 2 && (
+                <select
+                  className="selection-panel-select nodrag"
+                  value=""
+                  onChange={(e) => {
+                    arrangeSelectedNodes(e.target.value);
+                    e.target.value = "";
+                  }}
+                >
+                  <option value="" disabled>Arrange...</option>
+                  <optgroup label="Align">
+                    <option value="align-left">Left</option>
+                    <option value="align-center">Center</option>
+                    <option value="align-right">Right</option>
+                    <option value="align-top">Top</option>
+                    <option value="align-middle">Middle</option>
+                    <option value="align-bottom">Bottom</option>
+                  </optgroup>
+                  <optgroup label="Distribute">
+                    <option value="distribute-h" disabled={selectedNodes.length < 3}>
+                      Horizontally{selectedNodes.length < 3 ? ' (3+ nodes)' : ''}
+                    </option>
+                    <option value="distribute-v" disabled={selectedNodes.length < 3}>
+                      Vertically{selectedNodes.length < 3 ? ' (3+ nodes)' : ''}
+                    </option>
+                  </optgroup>
+                </select>
+              )}
             </div>
           </Panel>
         )}

@@ -869,3 +869,21 @@ button:active {
   background: #3a3a3a;
   color: #e0e0e0;
 }
+
+.selection-panel-select {
+  padding: 4px 6px;
+  font-size: .75rem;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+  background: white;
+  color: #000;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.selection-panel.dark-mode .selection-panel-select {
+  border-color: #555;
+  background: #3a3a3a;
+  color: #e0e0e0;
+}
