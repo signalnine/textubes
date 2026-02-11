@@ -47,14 +47,14 @@ export default function SourceNode({ data, id, selected, type }: NodeProps<Node<
           placeholder="Enter text here..."
           maxLength={10000}
         />
-        <label className="nodrag" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', marginTop: '4px', opacity: 0.7, cursor: 'pointer' }}>
+        <label className="nodrag node-label" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', marginTop: '4px', opacity: 0.7, cursor: 'pointer' }}>
           <input
             className="nodrag"
             type="checkbox"
             checked={!!data.lockedInPublished}
             onChange={(e) => updateNodeData(id, { lockedInPublished: e.target.checked })}
           />
-          Lock in published view
+          Hide in published view
         </label>
         <HelpLabel
           type="source"

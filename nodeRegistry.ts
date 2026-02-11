@@ -49,7 +49,7 @@ export const NODE_REGISTRY: Record<string, NodeConfig> = {
     label: "Text",
     category: 'source',
     help: {
-      description: "A text input node where you can manually type or paste text.",
+      description: "A text input node where you can manually type or paste text. Text nodes become editable inputs in a published flow, unless the \"Hide in published view\" checkbox is checked.",
       outputs: [
         { label: "Output", description: "The text you entered" }
       ]

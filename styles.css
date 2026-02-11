@@ -828,3 +828,44 @@ button:active {
 .node-header-destination .node-help-button:hover {
   background: rgba(255, 255, 255, 0.3) !important;
 }
+
+/* Selection panel */
+.selection-panel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: .8rem;
+}
+
+.selection-panel.dark-mode {
+  background: #2a2a2a;
+  border-color: #555;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  color: #e0e0e0;
+}
+
+.selection-panel-text {
+  white-space: nowrap;
+}
+
+.selection-panel-button {
+  padding: 4px 10px;
+  font-size: .75rem;
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+  background: white;
+  color: #000;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.selection-panel.dark-mode .selection-panel-button {
+  border-color: #555;
+  background: #3a3a3a;
+  color: #e0e0e0;
+}

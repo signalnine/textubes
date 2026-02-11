@@ -1,20 +1,21 @@
 {
   "version": 1,
+  "title": "Infinite Jest Variations",
   "nodes": [
     {
       "id": "template-1764952307854",
       "type": "template",
       "position": {
-        "x": -235.62979204251806,
-        "y": -415.87235583024665
+        "x": 191.89920422741943,
+        "y": 9.366653044172608
       },
       "data": {
-        "value": "I am seated in a room surrounded by eyebrows and torsos. ",
-        "isDarkMode": true
+        "value": "I am standing in a chamber surrounded by eyebrows and midsections. ",
+        "isDarkMode": false
       },
       "measured": {
         "width": 203,
-        "height": 144
+        "height": 168
       },
       "selected": false,
       "dragging": false
@@ -23,16 +24,17 @@
       "id": "source-1764952379255",
       "type": "source",
       "position": {
-        "x": -590.8569002938852,
-        "y": -669.0280131390595
+        "x": 185.82435921869137,
+        "y": -217.7883038104012
       },
       "data": {
-        "value": "I am __positioned__ in a room surrounded by __facial features__ and __limbs__. ",
-        "isDarkMode": true
+        "value": "I am __seated__ in a __room__ surrounded by __heads__ and __bodies__. ",
+        "isDarkMode": false,
+        "lockedInPublished": false
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
       "selected": false,
       "dragging": false
@@ -41,16 +43,17 @@
       "id": "source-1764952528273",
       "type": "source",
       "position": {
-        "x": -913.6110341496567,
-        "y": -332.09437649226805
+        "x": -449.8863709634402,
+        "y": 107.83554409045064
       },
       "data": {
-        "value": "heads\neyes\neyebrows\nnoses\nnostrils\nears\nforeheads",
-        "isDarkMode": true
+        "value": "heads eyes eyebrows noses nostrils ears  foreheads",
+        "isDarkMode": false,
+        "lockedInPublished": true
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
       "selected": false,
       "dragging": false
@@ -59,16 +62,17 @@
       "id": "source-1764952529516",
       "type": "source",
       "position": {
-        "x": -910.7151720116697,
-        "y": -126.75884518795932
+        "x": -450.18417064218784,
+        "y": 315.910668631828
       },
       "data": {
-        "value": "trunks\ntorsos\nbodies\nchests\nmidsections\n",
-        "isDarkMode": true
+        "value": "trunks torsos bodies chests midsections\n",
+        "isDarkMode": false,
+        "lockedInPublished": true
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
       "selected": false,
       "dragging": false
@@ -77,17 +81,18 @@
       "id": "randomselection-1764952535781",
       "type": "randomselection",
       "position": {
-        "x": -596.3220942829873,
-        "y": -176.68198173898026
+        "x": -145.5194666829466,
+        "y": 173.46175238667365
       },
       "data": {
-        "value": "torsos",
-        "mode": "line",
-        "isDarkMode": true,
-        "regenerateTimestamp": 1764952755749
+        "value": "midsections",
+        "mode": "word",
+        "isDarkMode": false,
+        "regenerateTimestamp": 1770821621460,
+        "helpActive": false
       },
       "measured": {
-        "width": 217,
+        "width": 224,
         "height": 116
       },
       "selected": false,
@@ -97,17 +102,18 @@
       "id": "randomselection-1764952537566",
       "type": "randomselection",
       "position": {
-        "x": -600.4035271432308,
-        "y": -315.91938729585104
+        "x": -146.86543701606843,
+        "y": 38.802001595628326
       },
       "data": {
         "value": "eyebrows",
-        "mode": "line",
-        "isDarkMode": true,
-        "regenerateTimestamp": 1764952755749
+        "mode": "word",
+        "isDarkMode": false,
+        "regenerateTimestamp": 1770821621460,
+        "helpActive": false
       },
       "measured": {
-        "width": 217,
+        "width": 224,
         "height": 116
       },
       "selected": false,
@@ -117,16 +123,18 @@
       "id": "source-1764952557870",
       "type": "source",
       "position": {
-        "x": -909.2101001745576,
-        "y": -543.0674375415621
+        "x": -452.4383908561558,
+        "y": -315.910668631828
       },
       "data": {
-        "value": "seated\nprone\nsupine\n",
-        "isDarkMode": true
+        "value": "seated\nprone\nsupine\nstanding\ncriss-cross applesauce\nkneeling",
+        "isDarkMode": false,
+        "lockedInPublished": true,
+        "helpActive": false
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
       "selected": false,
       "dragging": false
@@ -135,17 +143,18 @@
       "id": "randomselection-1764952561582",
       "type": "randomselection",
       "position": {
-        "x": -603.1022504921816,
-        "y": -452.20303431700495
+        "x": -148.3610383113496,
+        "y": -230.53947435824944
       },
       "data": {
-        "value": "seated",
+        "value": "standing",
         "mode": "line",
-        "isDarkMode": true,
-        "regenerateTimestamp": 1764952755749
+        "isDarkMode": false,
+        "regenerateTimestamp": 1770821621460,
+        "helpActive": false
       },
       "measured": {
-        "width": 217,
+        "width": 224,
         "height": 116
       },
       "selected": false,
@@ -155,16 +164,55 @@
       "id": "result-1764952620254",
       "type": "result",
       "position": {
-        "x": 186.12350182430873,
-        "y": -376.6266025081778
+        "x": 452.4383908561558,
+        "y": -129.82704204170318
       },
       "data": {
-        "value": "",
-        "isDarkMode": true
+        "value": "I am standing in a chamber surrounded by eyebrows and midsections. ",
+        "isDarkMode": false,
+        "helpActive": false
       },
       "measured": {
         "width": 300,
         "height": 303
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "source-1770821663800",
+      "type": "source",
+      "position": {
+        "x": -451.26871277344253,
+        "y": -100.01198289671015
+      },
+      "data": {
+        "value": "room hall vestibule parlor foyer chamber\n",
+        "isDarkMode": false,
+        "lockedInPublished": true
+      },
+      "measured": {
+        "width": 200,
+        "height": 198
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "randomselection-1770821738898",
+      "type": "randomselection",
+      "position": {
+        "x": -145.4291077882267,
+        "y": -101.58166807964858
+      },
+      "data": {
+        "value": "chamber",
+        "mode": "word",
+        "isDarkMode": false
+      },
+      "measured": {
+        "width": 224,
+        "height": 116
       },
       "selected": false,
       "dragging": false
@@ -194,28 +242,44 @@
       "id": "xy-edge__source-1764952557870-randomselection-1764952561582"
     },
     {
+      "source": "template-1764952307854",
+      "target": "result-1764952620254",
+      "id": "xy-edge__template-1764952307854-result-1764952620254",
+      "selected": false
+    },
+    {
+      "source": "source-1770821663800",
+      "target": "randomselection-1770821738898",
+      "id": "xy-edge__source-1770821663800-randomselection-1770821738898"
+    },
+    {
       "source": "randomselection-1764952561582",
       "target": "template-1764952307854",
-      "targetHandle": "token-positioned",
-      "id": "xy-edge__randomselection-1764952561582-template-1764952307854token-positioned"
+      "targetHandle": "token-seated",
+      "id": "xy-edge__randomselection-1764952561582-template-1764952307854token-seated",
+      "selected": false
+    },
+    {
+      "source": "randomselection-1770821738898",
+      "target": "template-1764952307854",
+      "targetHandle": "token-room",
+      "id": "xy-edge__randomselection-1770821738898-template-1764952307854token-room",
+      "selected": false
     },
     {
       "source": "randomselection-1764952537566",
       "target": "template-1764952307854",
-      "targetHandle": "token-facial features",
-      "id": "xy-edge__randomselection-1764952537566-template-1764952307854token-facial features"
+      "targetHandle": "token-heads",
+      "id": "xy-edge__randomselection-1764952537566-template-1764952307854token-heads",
+      "selected": false
     },
     {
       "source": "randomselection-1764952535781",
       "target": "template-1764952307854",
-      "targetHandle": "token-limbs",
-      "id": "xy-edge__randomselection-1764952535781-template-1764952307854token-limbs"
-    },
-    {
-      "source": "template-1764952307854",
-      "target": "result-1764952620254",
-      "id": "xy-edge__template-1764952307854-result-1764952620254"
+      "targetHandle": "token-bodies",
+      "id": "xy-edge__randomselection-1764952535781-template-1764952307854token-bodies",
+      "selected": false
     }
   ],
-  "darkMode": true
+  "darkMode": false
 }

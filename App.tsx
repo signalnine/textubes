@@ -3,6 +3,7 @@ import {
   ReactFlow,
   MiniMap,
   Controls,
+  Panel,
   applyNodeChanges,
   applyEdgeChanges,
   addEdge,
@@ -12,6 +13,7 @@ import {
   type EdgeChange,
   type Connection,
   type ReactFlowInstance,
+  type OnSelectionChangeFunc,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { getNodeTypes, getInitialNodeData } from "./nodeRegistry";
@@ -27,6 +29,21 @@ export type NodeData = {
 };
 
 const nodeTypes = getNodeTypes();
+
+/** Translate nodes so their bounding box is centered at the origin */
+function centerNodes<T extends { position: { x: number; y: number } }>(nodes: T[]): T[] {
+  if (nodes.length === 0) return nodes;
+  const minX = Math.min(...nodes.map(n => n.position.x));
+  const maxX = Math.max(...nodes.map(n => n.position.x));
+  const minY = Math.min(...nodes.map(n => n.position.y));
+  const maxY = Math.max(...nodes.map(n => n.position.y));
+  const offsetX = -(minX + maxX) / 2;
+  const offsetY = -(minY + maxY) / 2;
+  return nodes.map(n => ({
+    ...n,
+    position: { x: n.position.x + offsetX, y: n.position.y + offsetY },
+  }));
+}
 
 const STORAGE_KEY_NODES = "textubes-nodes";
 const STORAGE_KEY_EDGES = "textubes-edges";
@@ -120,6 +137,8 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
   });
   const [showHelp, setShowHelp] = useState(false);
   const [publishedUrl, setPublishedUrl] = useState("");
+  const [selectedNodes, setSelectedNodes] = useState<Node<NodeData>[]>([]);
+  const [selectedEdges, setSelectedEdges] = useState<Edge[]>([]);
 
   // Load flow from API when initialFlowId is provided (fork mode)
   useEffect(() => {
@@ -147,6 +166,11 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         if (typeof flowData.title === "string") {
           setTitle(flowData.title);
         }
+
+        // Fit view to the loaded flow after React Flow processes the nodes
+        requestAnimationFrame(() => {
+          reactFlowInstanceRef.current?.fitView();
+        });
       })
       .catch((err: Error) => {
         console.error("Failed to load flow:", err);
@@ -182,7 +206,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     const flowData = {
       version: 1,
       title,
-      nodes,
+      nodes: centerNodes(nodes),
       edges,
       darkMode: isDarkMode,
     };
@@ -232,6 +256,11 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
           setIsDarkMode(flowData.darkMode);
         }
         setTitle(typeof flowData.title === 'string' ? flowData.title : '');
+
+        // Fit view to the newly loaded nodes after React Flow processes them
+        requestAnimationFrame(() => {
+          reactFlowInstanceRef.current?.fitView();
+        });
       } catch (error) {
         console.error('Error importing flow:', error);
         alert('Error loading flow file. Please check the file format.');
@@ -254,48 +283,23 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         return;
       }
 
-      // Check if React Flow instance is available
-      if (!reactFlowInstanceRef.current) {
-        alert('React Flow instance not available');
-        return;
-      }
-
-      // Get current viewport to calculate offset
-      const viewport = reactFlowInstanceRef.current.getViewport();
-
-      // Calculate the center of the current view
-      const viewportCenterX = (-viewport.x + window.innerWidth / 2) / viewport.zoom;
-      const viewportCenterY = (-viewport.y + window.innerHeight / 2) / viewport.zoom;
-
-      // Calculate the bounding box of the preset nodes
-      let minX = Infinity, minY = Infinity;
-      presetData.nodes.forEach(node => {
-        minX = Math.min(minX, node.position.x);
-        minY = Math.min(minY, node.position.y);
-      });
-
-      // Calculate offset to center preset at viewport center
-      const offsetX = viewportCenterX - minX;
-      const offsetY = viewportCenterY - minY;
-
-      // Apply offset to all nodes (PRESERVE ORIGINAL IDs)
-      const offsetNodes = presetData.nodes.map(node => ({
+      // Apply current dark mode state to all nodes
+      const nodesWithDarkMode = presetData.nodes.map(node => ({
         ...node,
-        position: {
-          x: node.position.x + offsetX ,
-          y: node.position.y + offsetY
-        },
-        // Apply current dark mode state to all nodes
         data: {
           ...node.data,
           isDarkMode: isDarkMode
         }
       }));
 
-      // Clear canvas and load preset
-      setNodes(offsetNodes);
+      // Load preset and fit view to show all nodes
+      setNodes(nodesWithDarkMode);
       setEdges(presetData.edges);
       setTitle(typeof presetData.title === 'string' ? presetData.title : '');
+
+      requestAnimationFrame(() => {
+        reactFlowInstanceRef.current?.fitView();
+      });
 
     } catch (error) {
       console.error('Error loading preset:', error);
@@ -307,7 +311,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     const flowData = {
       version: 1,
       title,
-      nodes,
+      nodes: centerNodes(nodes),
       edges,
       darkMode: isDarkMode,
     };
@@ -347,6 +351,59 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
       setTitle('');
     }
   }, []);
+
+  const onSelectionChange = useCallback<OnSelectionChangeFunc>(({ nodes, edges }) => {
+    setSelectedNodes(nodes as Node<NodeData>[]);
+    setSelectedEdges(edges);
+  }, []);
+
+  const duplicateSelection = useCallback(() => {
+    if (selectedNodes.length === 0) return;
+
+    const now = Date.now();
+    // Map old node ID → new node ID
+    const idMap = new Map<string, string>();
+
+    const newNodes = selectedNodes.map((node, i) => {
+      const newId = `${node.type}-${now}-${i}`;
+      idMap.set(node.id, newId);
+      return {
+        ...node,
+        id: newId,
+        position: { x: node.position.x + 50, y: node.position.y + 50 },
+        data: { ...structuredClone(node.data), isDarkMode },
+        selected: false,
+      };
+    });
+
+    // Only duplicate edges where both endpoints are in the selection
+    const newEdges = selectedEdges
+      .filter(e => idMap.has(e.source) && idMap.has(e.target))
+      .map(e => ({
+        ...e,
+        id: `e-${idMap.get(e.source)}-${idMap.get(e.target)}-${e.sourceHandle ?? ''}-${e.targetHandle ?? ''}`,
+        source: idMap.get(e.source)!,
+        target: idMap.get(e.target)!,
+        selected: false,
+      }));
+
+    setNodes(prev => prev.map(n => ({ ...n, selected: false })).concat(newNodes.map(n => ({ ...n, selected: true }))));
+    setEdges(prev => prev.map(e => ({ ...e, selected: false })).concat(newEdges));
+  }, [selectedNodes, selectedEdges, isDarkMode]);
+
+  // Keyboard shortcut: Cmd+D / Ctrl+D to duplicate selection
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'd') {
+        if (selectedNodes.length > 0) {
+          e.preventDefault();
+          duplicateSelection();
+        }
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [selectedNodes, duplicateSelection]);
 
   const onNodesChange = useCallback(
     (changes: NodeChange<Node<NodeData>>[]) =>
@@ -455,9 +512,22 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         }}
         fitView
         colorMode={isDarkMode ? "dark" : "light"}
+        onSelectionChange={onSelectionChange}
       >
         <MiniMap nodeStrokeWidth={3} />
         <Controls />
+        {selectedNodes.length > 0 && (
+          <Panel position="bottom-center">
+            <div className={`selection-panel ${isDarkMode ? 'dark-mode' : ''}`}>
+              <span className="selection-panel-text">
+                {selectedNodes.length} node{selectedNodes.length !== 1 ? 's' : ''} selected
+              </span>
+              <button className="selection-panel-button" onClick={duplicateSelection}>
+                Duplicate
+              </button>
+            </div>
+          </Panel>
+        )}
       </ReactFlow>
       {showHelp && (
         <div className="help-modal-overlay" onClick={() => setShowHelp(false)}>

@@ -1,21 +1,22 @@
 {
   "version": 1,
+  "title": "WIPP Sign Bunny",
   "nodes": [
     {
       "id": "result1",
       "type": "result",
       "position": {
-        "x": 400.96960954174784,
-        "y": -118.77851180519285
+        "x": 556.0030660924912,
+        "y": -42.14983624163369
       },
       "data": {
-        "value": "",
-        "isDarkMode": true,
+        "value": "╔═══════════════════════════════╗\n║                               ║\n║  THIS PLACE IS A MESSAGE…AND  ║\n║  PART   OF   A   SYSTEM   OF  ║\n║  MESSAGES…PAY  ATTENTION  TO  ║\n║  IT!  SENDING  THIS  MESSAGE  ║\n║  WAS  IMPORTANT  TO  US.  WE  ║\n║  CONSIDERED  OURSELVES TO BE  ║\n║  A POWERFUL CULTURE.          ║\n║                               ║\n╚═══════════════════════════════╝\n                ║\n                ║\n                ║\n         (\\__/) ║ \n  　      (•ㅅ•) ║ \n         / 　 づ",
+        "isDarkMode": false,
         "helpActive": false
       },
       "measured": {
-        "width": 313,
-        "height": 403
+        "width": 317,
+        "height": 392
       },
       "selected": false,
       "dragging": false
@@ -24,13 +25,13 @@
       "id": "copypasta-1764520886146",
       "type": "copypasta",
       "position": {
-        "x": -685.7657150265205,
-        "y": -487.04895146691564
+        "x": -556.0030660924912,
+        "y": -305.1252441670486
       },
       "data": {
         "value": "This place is a message…and part of a system of messages…pay attention to it! Sending this message was important to us. We considered ourselves to be a powerful culture.\n\nThis place is not a place of honor…no highly esteemed deed is commemorated here…nothing valued is here.\n\nWhat is here is dangerous and repulsive to us. This message is a warning about danger.\n\nThe danger is in a particular location…it increases toward a center… he center of danger is here…of a particular size and shape, and below us.\n\nThe danger is still present, in your time, as it was in ours.\n\nThe danger is to the body, and it can kill.\n\nThe form of the danger is an emanation of energy.\n\nThe danger is unleashed only if you substantially disturb this place physically. This place is best shunned and left uninhabited",
         "selected": "place_of_honor",
-        "isDarkMode": true,
+        "isDarkMode": false,
         "helpActive": false
       },
       "measured": {
@@ -44,16 +45,16 @@
       "id": "capslock-1764520908607",
       "type": "capslock",
       "position": {
-        "x": -184.7217474773335,
-        "y": -486.2951395560271
+        "x": -54.95909854330412,
+        "y": -304.37143225616006
       },
       "data": {
         "value": "THIS PLACE IS A MESSAGE…AND PART OF A SYSTEM OF MESSAGES…PAY ATTENTION TO IT! SENDING THIS MESSAGE WAS IMPORTANT TO US. WE CONSIDERED OURSELVES TO BE A POWERFUL CULTURE.",
         "mode": "upper",
-        "isDarkMode": true
+        "isDarkMode": false
       },
       "measured": {
-        "width": 150,
+        "width": 224,
         "height": 97
       },
       "selected": false,
@@ -63,17 +64,17 @@
       "id": "repeat-1764523749167",
       "type": "repeat",
       "position": {
-        "x": -188.10377160433944,
-        "y": -53.942127376755614
+        "x": -58.34112267031006,
+        "y": 127.98157992311141
       },
       "data": {
         "value": "\n                ║\n                ║\n                ║",
-        "isDarkMode": true,
+        "isDarkMode": false,
         "separator": "",
         "count": 3
       },
       "measured": {
-        "width": 187,
+        "width": 224,
         "height": 164
       },
       "selected": false,
@@ -83,17 +84,17 @@
       "id": "wraptext-1764523827494",
       "type": "wraptext",
       "position": {
-        "x": -185.98419040309813,
-        "y": -370.9720141574156
+        "x": -56.22154146906874,
+        "y": -189.04830685754854
       },
       "data": {
         "value": "THIS PLACE IS A MESSAGE…AND\nPART   OF   A   SYSTEM   OF\nMESSAGES…PAY  ATTENTION  TO\nIT!  SENDING  THIS  MESSAGE\nWAS  IMPORTANT  TO  US.  WE\nCONSIDERED  OURSELVES TO BE\nA POWERFUL CULTURE.",
         "length": 27,
         "alignment": "full",
-        "isDarkMode": true
+        "isDarkMode": false
       },
       "measured": {
-        "width": 222,
+        "width": 224,
         "height": 149
       },
       "selected": false,
@@ -103,15 +104,15 @@
       "id": "box-1764524212485",
       "type": "box",
       "position": {
-        "x": 81.49151837120979,
-        "y": -288.4352605301676
+        "x": 213.7258179924206,
+        "y": -138.64301216365902
       },
       "data": {
         "value": "╔═══════════════════════════════╗\n║                               ║\n║  THIS PLACE IS A MESSAGE…AND  ║\n║  PART   OF   A   SYSTEM   OF  ║\n║  MESSAGES…PAY  ATTENTION  TO  ║\n║  IT!  SENDING  THIS  MESSAGE  ║\n║  WAS  IMPORTANT  TO  US.  WE  ║\n║  CONSIDERED  OURSELVES TO BE  ║\n║  A POWERFUL CULTURE.          ║\n║                               ║\n╚═══════════════════════════════╝",
         "style": "double",
         "horizontalPadding": 2,
         "verticalPadding": 1,
-        "isDarkMode": true
+        "isDarkMode": false
       },
       "measured": {
         "width": 277,
@@ -124,12 +125,12 @@
       "id": "concatenate-1764524269606",
       "type": "concatenate",
       "position": {
-        "x": 120.52404836264424,
-        "y": -60.415840111643696
+        "x": 247.8150466094922,
+        "y": 111.62126443949768
       },
       "data": {
         "value": "╔═══════════════════════════════╗\n║                               ║\n║  THIS PLACE IS A MESSAGE…AND  ║\n║  PART   OF   A   SYSTEM   OF  ║\n║  MESSAGES…PAY  ATTENTION  TO  ║\n║  IT!  SENDING  THIS  MESSAGE  ║\n║  WAS  IMPORTANT  TO  US.  WE  ║\n║  CONSIDERED  OURSELVES TO BE  ║\n║  A POWERFUL CULTURE.          ║\n║                               ║\n╚═══════════════════════════════╝\n                ║\n                ║\n                ║\n         (\\__/) ║ \n  　      (•ㅅ•) ║ \n         / 　 づ",
-        "isDarkMode": true,
+        "isDarkMode": false,
         "helpActive": false
       },
       "measured": {
@@ -143,16 +144,16 @@
       "id": "source-1764524298963",
       "type": "source",
       "position": {
-        "x": -674.6575874646854,
-        "y": -145.34648569433404
+        "x": -547.3665892178375,
+        "y": 35.341396261942265
       },
       "data": {
         "value": "                ║",
-        "isDarkMode": true
+        "isDarkMode": false
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
       "selected": false,
       "dragging": false
@@ -161,12 +162,12 @@
       "id": "concatenate-1764524358236",
       "type": "concatenate",
       "position": {
-        "x": -188.56076679299815,
-        "y": -205.888160529372
+        "x": -58.798117858968766,
+        "y": -23.964453229504954
       },
       "data": {
         "value": "\n                ║",
-        "isDarkMode": true
+        "isDarkMode": false
       },
       "measured": {
         "width": 187,
@@ -179,16 +180,16 @@
       "id": "source-1764524373068",
       "type": "source",
       "position": {
-        "x": -671.545739786299,
-        "y": -343.25183464059535
+        "x": -549.1980429138139,
+        "y": -174.92220612022606
       },
       "data": {
         "value": "\n",
-        "isDarkMode": true
+        "isDarkMode": false
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
       "selected": false,
       "dragging": false
@@ -197,12 +198,12 @@
       "id": "concatenate-1764524832162",
       "type": "concatenate",
       "position": {
-        "x": -185.5989936704379,
-        "y": 125.51516831247935
+        "x": -55.836344736408506,
+        "y": 307.43887561234635
       },
       "data": {
         "value": "\n                ║\n                ║\n                ║\n         (\\__/) ║ \n  　      (•ㅅ•) ║ \n         / 　 づ",
-        "isDarkMode": true
+        "isDarkMode": false
       },
       "measured": {
         "width": 187,
@@ -215,26 +216,26 @@
       "id": "source-1764524842898",
       "type": "source",
       "position": {
-        "x": -678.0163825645681,
-        "y": 51.60030545314855
+        "x": -545.7820829433573,
+        "y": 242.17479015815056
       },
       "data": {
         "value": "\n         (\\__/) ║ \n  　      (•ㅅ•) ║ \n         / 　 づ",
-        "isDarkMode": true
+        "isDarkMode": false
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
-      "selected": true,
+      "selected": false,
       "dragging": false
     },
     {
       "id": "split-1764527284836",
       "type": "split",
       "position": {
-        "x": -413.14235525259517,
-        "y": -489.3625829122134
+        "x": -283.3797063185658,
+        "y": -307.43887561234635
       },
       "data": {
         "mode": "line",
@@ -256,7 +257,7 @@
           "",
           "The danger is unleashed only if you substantially disturb this place physically. This place is best shunned and left uninhabited"
         ],
-        "isDarkMode": true,
+        "isDarkMode": false,
         "output-0": "This place is a message…and part of a system of messages…pay attention to it! Sending this message was important to us. We considered ourselves to be a powerful culture.",
         "output-1": "",
         "output-2": "This place is not a place of honor…no highly esteemed deed is commemorated here…nothing valued is here.",
@@ -351,5 +352,5 @@
       "id": "xy-edge__capslock-1764520908607-wraptext-1764523827494"
     }
   ],
-  "darkMode": true
+  "darkMode": false
 }

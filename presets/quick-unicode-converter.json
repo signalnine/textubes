@@ -1,34 +1,35 @@
 {
   "version": 1,
+  "title": "Unicode Styling",
   "nodes": [
     {
       "id": "source-1765303667320",
       "type": "source",
       "position": {
-        "x": 218.76562814282636,
-        "y": -14.438102487330216
+        "x": -262.6075465870025,
+        "y": -21.223154621890217
       },
       "data": {
-        "value": "Why, hello there!",
-        "isDarkMode": true
+        "value": "The Fairy Prince of Prospect Park",
+        "isDarkMode": false
       },
       "measured": {
         "width": 200,
         "height": 180
       },
-      "selected": true,
+      "selected": false,
       "dragging": false
     },
     {
       "id": "unicode-1765303669246",
       "type": "unicode",
       "position": {
-        "x": 251.93318127929294,
-        "y": 258.28979824873045
+        "x": 15.773244540612012,
+        "y": 33.3495205910113
       },
       "data": {
-        "value": "𝒲𝒽𝓎, 𝒽ℯ𝓁𝓁ℴ 𝓉𝒽ℯ𝓇ℯ!",
-        "isDarkMode": true,
+        "value": "𝒯𝒽ℯ ℱ𝒶𝒾𝓇𝓎 𝒫𝓇𝒾𝓃𝒸ℯ ℴ𝒻 𝒫𝓇ℴ𝓈𝓅ℯ𝒸𝓉 𝒫𝒶𝓇𝓀",
+        "isDarkMode": false,
         "style": "script"
       },
       "measured": {
@@ -42,12 +43,12 @@
       "id": "result-1765303671493",
       "type": "result",
       "position": {
-        "x": 487.7751657605629,
-        "y": 254.16241089893182
+        "x": 262.6075465870025,
+        "y": -33.3495205910113
       },
       "data": {
-        "value": "",
-        "isDarkMode": true
+        "value": "𝒯𝒽ℯ ℱ𝒶𝒾𝓇𝓎 𝒫𝓇𝒾𝓃𝒸ℯ ℴ𝒻 𝒫𝓇ℴ𝓈𝓅ℯ𝒸𝓉 𝒫𝒶𝓇𝓀",
+        "isDarkMode": false
       },
       "measured": {
         "width": 300,
@@ -69,5 +70,5 @@
       "id": "xy-edge__source-1765303667320-unicode-1765303669246"
     }
   ],
-  "darkMode": true
+  "darkMode": false
 }

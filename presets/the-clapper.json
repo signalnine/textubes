@@ -1,12 +1,13 @@
 {
   "version": 1,
+  "title": "The Clapper",
   "nodes": [
     {
       "id": "source-1765465321267",
       "type": "source",
       "position": {
-        "x": 860.6953160285246,
-        "y": 943.2124501025642
+        "x": -280.9364763571324,
+        "y": -103.39378144833336
       },
       "data": {
         "value": "In Xanadu did Kubla Khan a stately pleasure dome decree",
@@ -14,20 +15,20 @@
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
-      "selected": true,
+      "selected": false,
       "dragging": false
     },
     {
       "id": "result-1765465326724",
       "type": "result",
       "position": {
-        "x": 1425.5931765488715,
-        "y": 946.7736921449572
+        "x": 283.96138416321446,
+        "y": -99.83253940594034
       },
       "data": {
-        "value": "",
+        "value": "In 👏 Xanadu 👏 did 👏 Kubla 👏 Khan 👏 a 👏 stately 👏 pleasure 👏 dome 👏 decree",
         "isDarkMode": false
       },
       "measured": {
@@ -41,8 +42,8 @@
       "id": "replace-1765466183858",
       "type": "replace",
       "position": {
-        "x": 1152.4103376532357,
-        "y": 992.8619951589588
+        "x": 10.778545267578693,
+        "y": -53.74423639193867
       },
       "data": {
         "value": "In 👏 Xanadu 👏 did 👏 Kubla 👏 Khan 👏 a 👏 stately 👏 pleasure 👏 dome 👏 decree",
@@ -60,8 +61,8 @@
       "id": "source-1765466202760",
       "type": "source",
       "position": {
-        "x": 857.6704082224427,
-        "y": 1150.0000129992309
+        "x": -283.96138416321435,
+        "y": 103.39378144833336
       },
       "data": {
         "value": " 👏 ",
@@ -69,7 +70,7 @@
       },
       "measured": {
         "width": 200,
-        "height": 180
+        "height": 198
       },
       "selected": false,
       "dragging": false

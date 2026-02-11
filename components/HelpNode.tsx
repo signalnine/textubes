@@ -43,7 +43,8 @@ export const HELP_CONTENT: React.ReactNode[] = [
   <p>An output can connect to multiple inputs, but an input can only connect to one output.</p>,
   <p>You can <b>delete a node</b> by clicking on it and pressing your delete key, or by clicking the [x] button in the node's top left corner.</p>,
   <p>You can <b>delete a connection</b> by clicking on it and pressing your delete key, or by dragging a different output to its input.</p>,
-  <p>Textubes automatically saves the canvas in local browser storage as you work.</p>,
+  <p>Textubes automatically saves the canvas state in local browser storage as you work. Clicking <strong>Save</strong> will download the canvas as a file, and <strong>Load</strong> lets you load a file you've previously downloaded.</p>,
+  <p>The <strong>Publish</strong> button saves the graph to a public URL. The published view of a Textubes graph displays only Text Source and Result nodes, and makes it quick to use a flow without loading a complicated interface.</p>
 ];
 
 export default function HelpNode({ id, data, selected, type }: NodeProps<Node<NodeData>>) {
