@@ -23,6 +23,7 @@ import TemplateNode from "./components/TemplateNode";
 import ZalgoNode from "./components/ZalgoNode";
 import Rot13Node from "./components/Rot13Node";
 import ShuffleNode from "./components/ShuffleNode";
+import FigletNode from "./components/FigletNode";
 import { HELP_TEXT } from "./components/HelpNode";
 import type { NodeData } from "./App";
 
@@ -366,6 +367,21 @@ export const NODE_REGISTRY: Record<string, NodeConfig> = {
       ],
       outputs: [
         { label: "Output", description: "Text surrounded by box characters" }
+      ]
+    }
+  },
+  figlet: {
+    component: FigletNode,
+    label: "FIGlet",
+    category: 'transformer',
+    initialData: () => ({ value: "", font: "Standard" }),
+    help: {
+      description: "Converts text into ASCII art using FIGlet fonts. Choose from 15 built-in fonts including Standard, Banner, Doom, and more.",
+      inputs: [
+        { label: "Input", description: "Text to render as ASCII art" }
+      ],
+      outputs: [
+        { label: "Output", description: "ASCII art text" }
       ]
     }
   },
