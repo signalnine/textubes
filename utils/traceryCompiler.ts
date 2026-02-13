@@ -13,6 +13,61 @@ export type ValidationResult = {
   warnings: string[];
 };
 
+/**
+ * Preprocess a string that might be Python dict syntax into valid JSON.
+ * Handles: variable assignment prefix, single quotes, escaped quotes, trailing commas.
+ */
+export function preprocessTraceryInput(input: string): string {
+  let text = input.trim();
+
+  // Strip Python variable assignment: `rules = {` → `{`
+  text = text.replace(/^\w+\s*=\s*/, "");
+
+  // If it already parses as JSON, return as-is
+  try {
+    JSON.parse(text);
+    return text;
+  } catch {
+    // Continue with conversion
+  }
+
+  // Convert Python single-quoted strings to double-quoted JSON strings.
+  // Walk character by character to handle escapes correctly.
+  let result = "";
+  let i = 0;
+  while (i < text.length) {
+    if (text[i] === "'") {
+      // Start of a single-quoted string — convert to double-quoted
+      result += '"';
+      i++;
+      while (i < text.length && text[i] !== "'") {
+        if (text[i] === "\\" && i + 1 < text.length && text[i + 1] === "'") {
+          // \' in Python → ' in JSON (inside double quotes, ' is fine unescaped)
+          result += "'";
+          i += 2;
+        } else if (text[i] === '"') {
+          // Bare double quote inside a single-quoted Python string → escape for JSON
+          result += '\\"';
+          i++;
+        } else {
+          result += text[i];
+          i++;
+        }
+      }
+      result += '"';
+      i++; // skip closing '
+    } else {
+      result += text[i];
+      i++;
+    }
+  }
+
+  // Remove trailing commas before } or ]
+  result = result.replace(/,(\s*[}\]])/g, "$1");
+
+  return result;
+}
+
 const SUPPORTED_MODIFIERS = new Set(["capitalize", "s", "a", "ed"]);
 
 const MODIFIER_NODE_TYPES: Record<string, string> = {

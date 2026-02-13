@@ -3,6 +3,7 @@ import {
   validateTraceryGrammar,
   parseTraceryReferences,
   compileTraceryGrammar,
+  preprocessTraceryInput,
 } from "./traceryCompiler";
 
 describe("parseTraceryReferences", () => {
@@ -286,5 +287,56 @@ describe("compileTraceryGrammar", () => {
     );
     expect(edge1).toBeDefined();
     expect(edge2).toBeDefined();
+  });
+});
+
+describe("preprocessTraceryInput", () => {
+  test("returns valid JSON unchanged", () => {
+    const json = '{"origin": "#name#", "name": ["Alice", "Bob"]}';
+    const result = preprocessTraceryInput(json);
+    expect(JSON.parse(result)).toEqual({ origin: "#name#", name: ["Alice", "Bob"] });
+  });
+
+  test("strips Python variable assignment", () => {
+    const input = 'rules = {"origin": "hello"}';
+    const result = preprocessTraceryInput(input);
+    expect(JSON.parse(result)).toEqual({ origin: "hello" });
+  });
+
+  test("converts single quotes to double quotes", () => {
+    const input = "{'origin': '#name#', 'name': ['Alice', 'Bob']}";
+    const result = preprocessTraceryInput(input);
+    expect(JSON.parse(result)).toEqual({ origin: "#name#", name: ["Alice", "Bob"] });
+  });
+
+  test("handles escaped single quotes in Python strings", () => {
+    const input = "{'origin': 'it\\'s a #thing#'}";
+    const result = preprocessTraceryInput(input);
+    expect(JSON.parse(result)).toEqual({ origin: "it's a #thing#" });
+  });
+
+  test("handles double quotes inside single-quoted strings", () => {
+    const input = `{'origin': 'She said "hello"'}`;
+    const result = preprocessTraceryInput(input);
+    expect(JSON.parse(result)).toEqual({ origin: 'She said "hello"' });
+  });
+
+  test("removes trailing commas", () => {
+    const input = "{'origin': 'hello', 'name': ['a', 'b',],}";
+    const result = preprocessTraceryInput(input);
+    expect(JSON.parse(result)).toEqual({ origin: "hello", name: ["a", "b"] });
+  });
+
+  test("handles full Python dict with assignment and escapes", () => {
+    const input = `rules = {
+    'origin': '#suggestion#',
+    'suggestion': ['Let\\'s try #thing#', 'How about #thing#'],
+    'thing': ['this', 'that'],
+}`;
+    const result = preprocessTraceryInput(input);
+    const parsed = JSON.parse(result);
+    expect(parsed.origin).toBe("#suggestion#");
+    expect(parsed.suggestion).toEqual(["Let's try #thing#", "How about #thing#"]);
+    expect(parsed.thing).toEqual(["this", "that"]);
   });
 });

@@ -126,7 +126,7 @@ export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, on
         <input
           ref={traceryInputRef}
           type="file"
-          accept=".json"
+          accept=".json,.py,.txt"
           onChange={onImportTracery}
           style={{ display: 'none' }}
         />

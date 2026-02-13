@@ -19,7 +19,7 @@ import "@xyflow/react/dist/style.css";
 import { getNodeTypes, getInitialNodeData } from "./nodeRegistry";
 import NodePicker from "./components/NodePicker";
 import { loadPresetFile, validatePresetData } from "./utils/presetUtils";
-import { validateTraceryGrammar, compileTraceryGrammar } from "./utils/traceryCompiler";
+import { validateTraceryGrammar, compileTraceryGrammar, preprocessTraceryInput } from "./utils/traceryCompiler";
 import { HELP_CONTENT } from "./components/HelpNode";
 
 export type NodeData = {
@@ -361,7 +361,8 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     reader.onload = (e) => {
       try {
         const content = e.target?.result as string;
-        const parsed = JSON.parse(content);
+        const jsonStr = preprocessTraceryInput(content);
+        const parsed = JSON.parse(jsonStr);
 
         const validation = validateTraceryGrammar(parsed);
 
@@ -386,14 +387,14 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         const { nodes: newNodes, edges: newEdges } = compileTraceryGrammar(parsed, isDarkMode);
         setNodes(newNodes);
         setEdges(newEdges);
-        setTitle(file.name.replace(/\.json$/, ""));
+        setTitle(file.name.replace(/\.(json|py|txt)$/, ""));
 
         requestAnimationFrame(() => {
           reactFlowInstanceRef.current?.fitView();
         });
       } catch (error) {
         console.error("Error importing Tracery grammar:", error);
-        alert("Error parsing file. Make sure it's valid JSON.");
+        alert("Error parsing file. Make sure it's valid JSON or Python dict syntax.");
       }
     };
     reader.readAsText(file);
