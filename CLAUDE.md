@@ -442,6 +442,22 @@ The application includes save/load functionality for persisting and restoring fl
 - Restores state on page load
 - Empty arrays are treated as "show defaults" rather than blank canvas
 
+## Selection Panel (Duplicate, Align & Distribute)
+
+When nodes are selected, a bottom-center `<Panel>` appears with context-sensitive actions:
+
+- **1+ nodes**: Shows count and **Duplicate** button (also Cmd/Ctrl+D)
+- **2+ nodes**: Also shows an **Arrange...** `<select>` dropdown with alignment and distribution operations
+
+### Arrange dropdown
+Uses the fire-and-reset pattern (like NodePicker): `onChange` fires the action, then resets `value` to `""`.
+
+**Alignment** (2+ nodes): Left, Center, Right, Top, Middle, Bottom — snaps node edges/centers to a shared line.
+
+**Distribution** (3+ nodes): Horizontally, Vertically — evenly spaces nodes between the first and last in sort order. Disabled with "(3+ nodes)" hint when < 3 selected.
+
+All operations use `reactFlowInstanceRef.current.getInternalNode(id).measured.width/.height` for actual rendered dimensions. Nodes without measurements are silently skipped. Implementation is in `arrangeSelectedNodes()` in `App.tsx`.
+
 ## Published View (Sharing)
 
 Flows can be published and shared via `/s/{flowId}` URLs. The published view (`components/PublishedView.tsx`) presents a simplified form UI:
