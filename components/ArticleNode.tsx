@@ -20,6 +20,11 @@ export default function ArticleNode({ id, data, selected, type }: NodeProps<Node
   const nodesData = useNodesData(sourceIds);
   const helpInfo = getNodeHelp(type);
 
+  // Extract input value outside the effect to avoid depending on nodesData array
+  const inputValue = sourceIds.length > 0
+    ? getSourceValue(nodesData[0], connections[0])
+    : '';
+
   useEffect(() => {
     if (sourceIds.length === 0) {
       if (data.value !== '') {
@@ -28,18 +33,12 @@ export default function ArticleNode({ id, data, selected, type }: NodeProps<Node
       return;
     }
 
-    // Get input from the first connected node (handles multi-output nodes like Split)
-    const firstConnection = connections[0];
-    const firstNode = nodesData[0];
-    const inputValue = getSourceValue(firstNode, firstConnection);
-
-    // Add article to the string
     const outputValue = addArticle(inputValue);
 
     if (data.value !== outputValue) {
       updateNodeData(id, { value: outputValue });
     }
-  }, [nodesData, sourceIds.length, id, updateNodeData, data.value]);
+  }, [inputValue, sourceIds.length, id, updateNodeData, data.value]);
 
   const toggleHelp = () => {
     updateNodeData(id, { helpActive: !data.helpActive });

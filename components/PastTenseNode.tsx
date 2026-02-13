@@ -23,6 +23,11 @@ export default function PastTenseNode({ id, data, selected, type }: NodeProps<No
   const nodesData = useNodesData(sourceIds);
   const helpInfo = getNodeHelp(type);
 
+  // Extract input value outside the effect to avoid depending on nodesData array
+  const inputValue = sourceIds.length > 0
+    ? getSourceValue(nodesData[0], connections[0])
+    : '';
+
   useEffect(() => {
     if (sourceIds.length === 0) {
       if (data.value !== '') {
@@ -31,18 +36,12 @@ export default function PastTenseNode({ id, data, selected, type }: NodeProps<No
       return;
     }
 
-    // Get input from the first connected node
-    const firstConnection = connections[0];
-    const firstNode = nodesData[0];
-    const inputValue = getSourceValue(firstNode, firstConnection);
-
-    // Apply past tense transformation
     const outputValue = pastTense(inputValue);
 
     if (data.value !== outputValue) {
       updateNodeData(id, { value: outputValue });
     }
-  }, [nodesData, sourceIds.length, id, updateNodeData, data.value]);
+  }, [inputValue, sourceIds.length, id, updateNodeData, data.value]);
 
   const toggleHelp = () => {
     updateNodeData(id, { helpActive: !data.helpActive });
