@@ -19,6 +19,7 @@ import "@xyflow/react/dist/style.css";
 import { getNodeTypes, getInitialNodeData } from "./nodeRegistry";
 import NodePicker from "./components/NodePicker";
 import { loadPresetFile, validatePresetData } from "./utils/presetUtils";
+import { validateTraceryGrammar, compileTraceryGrammar } from "./utils/traceryCompiler";
 import { HELP_CONTENT } from "./components/HelpNode";
 
 export type NodeData = {
@@ -352,6 +353,53 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     }
   }, []);
 
+  const importTracery = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const parsed = JSON.parse(content);
+
+        const validation = validateTraceryGrammar(parsed);
+
+        if (!validation.valid) {
+          alert("Invalid Tracery grammar:\n" + validation.errors.join("\n"));
+          return;
+        }
+
+        if (validation.warnings.length > 0) {
+          const proceed = confirm(
+            "Warning — some features are not supported and will be ignored:\n\n" +
+            validation.warnings.join("\n") +
+            "\n\nImport anyway?"
+          );
+          if (!proceed) return;
+        }
+
+        if (nodes.length > 0) {
+          if (!confirm("Replace current canvas with imported Tracery grammar?")) return;
+        }
+
+        const { nodes: newNodes, edges: newEdges } = compileTraceryGrammar(parsed, isDarkMode);
+        setNodes(newNodes);
+        setEdges(newEdges);
+        setTitle(file.name.replace(/\.json$/, ""));
+
+        requestAnimationFrame(() => {
+          reactFlowInstanceRef.current?.fitView();
+        });
+      } catch (error) {
+        console.error("Error importing Tracery grammar:", error);
+        alert("Error parsing file. Make sure it's valid JSON.");
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = "";
+  }, [isDarkMode, nodes.length]);
+
   const onSelectionChange = useCallback<OnSelectionChangeFunc>(({ nodes, edges }) => {
     setSelectedNodes(nodes as Node<NodeData>[]);
     setSelectedEdges(edges);
@@ -575,6 +623,7 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         onTitleChange={setTitle}
         onHelp={() => setShowHelp(true)}
         onClear={clearCanvas}
+        onImportTracery={importTracery}
       />
       <ReactFlow
         nodes={nodes}
