@@ -16,12 +16,10 @@ type NodePickerProps = {
   onTitleChange: (title: string) => void;
   onHelp: () => void;
   onClear: () => void;
-  onImportTracery: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, onExport, onImport, onLoadPreset, onPublish, publishedUrl, onClearPublishedUrl, title, onTitleChange, onHelp, onClear, onImportTracery }: NodePickerProps) {
+export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, onExport, onImport, onLoadPreset, onPublish, publishedUrl, onClearPublishedUrl, title, onTitleChange, onHelp, onClear }: NodePickerProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const traceryInputRef = useRef<HTMLInputElement>(null);
   const [presets, setPresets] = useState<PresetMetadata[]>([]);
 
   // Load preset list on mount
@@ -105,29 +103,15 @@ export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, on
         <button
           className="node-picker-button"
           onClick={() => fileInputRef.current?.click()}
-          title="Import flow from JSON"
+          title="Load flow or Tracery grammar"
         >
           Load
         </button>
         <input
           ref={fileInputRef}
           type="file"
-          accept=".json"
-          onChange={onImport}
-          style={{ display: 'none' }}
-        />
-        <button
-          className="node-picker-button"
-          onClick={() => traceryInputRef.current?.click()}
-          title="Import Tracery grammar"
-        >
-          Import Tracery
-        </button>
-        <input
-          ref={traceryInputRef}
-          type="file"
           accept=".json,.py,.txt"
-          onChange={onImportTracery}
+          onChange={onImport}
           style={{ display: 'none' }}
         />
       </div>

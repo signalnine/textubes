@@ -71,10 +71,14 @@ export function preprocessTraceryInput(input: string): string {
 const SUPPORTED_MODIFIERS = new Set(["capitalize", "s", "a", "ed"]);
 
 const MODIFIER_NODE_TYPES: Record<string, string> = {
-  capitalize: "capitalize",
+  capitalize: "changecase",
   s: "pluralize",
   a: "article",
   ed: "pasttense",
+};
+
+const MODIFIER_INITIAL_DATA: Record<string, Record<string, unknown>> = {
+  capitalize: { mode: "sentence" },
 };
 
 const H_SPACING = 300;
@@ -425,7 +429,7 @@ export function compileTraceryGrammar(
             id: modId,
             type: modType,
             position: { x: 0, y: 0 },
-            data: { value: "", isDarkMode },
+            data: { value: "", isDarkMode, ...MODIFIER_INITIAL_DATA[mod] },
           });
           edges.push({
             id: `e-${prevNodeId}-${modId}`,

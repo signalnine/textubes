@@ -166,7 +166,7 @@ describe("compileTraceryGrammar", () => {
       animal: ["cat", "dog"],
     };
     const { nodes } = compileTraceryGrammar(grammar, false);
-    expect(nodes.filter((n) => n.type === "capitalize")).toHaveLength(1);
+    expect(nodes.filter((n) => n.type === "changecase")).toHaveLength(1);
     const originSource = nodes.find(
       (n) =>
         n.type === "source" && n.data.value?.includes("__ANIMAL_CAPITALIZE__")
@@ -268,11 +268,11 @@ describe("compileTraceryGrammar", () => {
       animal: ["cat", "dog"],
     };
     const { nodes, edges } = compileTraceryGrammar(grammar, false);
-    expect(nodes.filter((n) => n.type === "capitalize")).toHaveLength(1);
+    expect(nodes.filter((n) => n.type === "changecase")).toHaveLength(1);
     expect(nodes.filter((n) => n.type === "pluralize")).toHaveLength(1);
 
     // Verify chain: animal RS -> capitalize -> pluralize -> template
-    const capitalizeNode = nodes.find((n) => n.type === "capitalize");
+    const capitalizeNode = nodes.find((n) => n.type === "changecase");
     const pluralizeNode = nodes.find((n) => n.type === "pluralize");
     const animalRS = nodes.find(
       (n) =>

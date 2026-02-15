@@ -24,7 +24,6 @@ import ZalgoNode from "./components/ZalgoNode";
 import Rot13Node from "./components/Rot13Node";
 import ShuffleNode from "./components/ShuffleNode";
 import FigletNode from "./components/FigletNode";
-import CapitalizeNode from "./components/CapitalizeNode";
 import PluralizeNode from "./components/PluralizeNode";
 import ArticleNode from "./components/ArticleNode";
 import PastTenseNode from "./components/PastTenseNode";
@@ -402,16 +401,6 @@ export const NODE_REGISTRY: Record<string, NodeConfig> = {
         { label: "Output", description: "Template with tokens replaced" }
       ]
     }
-  },
-  capitalize: {
-    component: CapitalizeNode,
-    label: "Capitalize",
-    category: 'transformer',
-    help: {
-      description: "Capitalizes the first letter of the input text.",
-      inputs: [{ label: "Input", description: "Text to capitalize" }],
-      outputs: [{ label: "Output", description: "Text with first letter capitalized" }],
-    },
   },
   pluralize: {
     component: PluralizeNode,

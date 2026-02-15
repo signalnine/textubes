@@ -233,45 +233,67 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     reader.onload = (e) => {
       try {
         const content = e.target?.result as string;
-        const flowData = JSON.parse(content);
+        const jsonStr = preprocessTraceryInput(content);
+        const parsed = JSON.parse(jsonStr);
 
-        // Basic validation
-        if (!flowData.nodes || !Array.isArray(flowData.nodes)) {
-          alert('Invalid flow file: missing nodes array');
-          return;
+        // Detect format: Textubes flow files have nodes/edges arrays,
+        // Tracery grammars have string/array values keyed by rule names
+        const isTextubesFlow = Array.isArray(parsed.nodes) && Array.isArray(parsed.edges);
+
+        if (isTextubesFlow) {
+          // Load as Textubes flow
+          const nodesWithDarkMode = parsed.nodes.map((node: Node<NodeData>) => ({
+            ...node,
+            data: { ...node.data, isDarkMode: parsed.darkMode ?? isDarkMode },
+          }));
+
+          setNodes(nodesWithDarkMode);
+          setEdges(parsed.edges);
+          if (typeof parsed.darkMode === 'boolean') {
+            setIsDarkMode(parsed.darkMode);
+          }
+          setTitle(typeof parsed.title === 'string' ? parsed.title : '');
+        } else {
+          // Try as Tracery grammar
+          const validation = validateTraceryGrammar(parsed);
+
+          if (!validation.valid) {
+            alert("Invalid file — not a Textubes flow or Tracery grammar:\n" + validation.errors.join("\n"));
+            return;
+          }
+
+          if (validation.warnings.length > 0) {
+            const proceed = confirm(
+              "Warning — some Tracery features are not supported and will be ignored:\n\n" +
+              validation.warnings.join("\n") +
+              "\n\nImport anyway?"
+            );
+            if (!proceed) return;
+          }
+
+          if (nodes.length > 0) {
+            if (!confirm("Replace current canvas with imported Tracery grammar?")) return;
+          }
+
+          const { nodes: newNodes, edges: newEdges } = compileTraceryGrammar(parsed, isDarkMode);
+          setNodes(newNodes);
+          setEdges(newEdges);
+          setTitle(file.name.replace(/\.(json|py|txt)$/, ""));
         }
-        if (!flowData.edges || !Array.isArray(flowData.edges)) {
-          alert('Invalid flow file: missing edges array');
-          return;
-        }
 
-        // Update dark mode state for all nodes
-        const nodesWithDarkMode = flowData.nodes.map((node: Node<NodeData>) => ({
-          ...node,
-          data: { ...node.data, isDarkMode: flowData.darkMode ?? isDarkMode },
-        }));
-
-        setNodes(nodesWithDarkMode);
-        setEdges(flowData.edges);
-        if (typeof flowData.darkMode === 'boolean') {
-          setIsDarkMode(flowData.darkMode);
-        }
-        setTitle(typeof flowData.title === 'string' ? flowData.title : '');
-
-        // Fit view to the newly loaded nodes after React Flow processes them
         requestAnimationFrame(() => {
           reactFlowInstanceRef.current?.fitView();
         });
       } catch (error) {
-        console.error('Error importing flow:', error);
-        alert('Error loading flow file. Please check the file format.');
+        console.error('Error importing file:', error);
+        alert('Error loading file. Accepts Textubes flows (.json) or Tracery grammars (.json, .py, .txt).');
       }
     };
     reader.readAsText(file);
 
     // Reset the input so the same file can be loaded again
     event.target.value = '';
-  }, [isDarkMode]);
+  }, [isDarkMode, nodes.length]);
 
   const loadPreset = useCallback((presetId: string) => {
     try {
@@ -353,53 +375,6 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
     }
   }, []);
 
-  const importTracery = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const content = e.target?.result as string;
-        const jsonStr = preprocessTraceryInput(content);
-        const parsed = JSON.parse(jsonStr);
-
-        const validation = validateTraceryGrammar(parsed);
-
-        if (!validation.valid) {
-          alert("Invalid Tracery grammar:\n" + validation.errors.join("\n"));
-          return;
-        }
-
-        if (validation.warnings.length > 0) {
-          const proceed = confirm(
-            "Warning — some features are not supported and will be ignored:\n\n" +
-            validation.warnings.join("\n") +
-            "\n\nImport anyway?"
-          );
-          if (!proceed) return;
-        }
-
-        if (nodes.length > 0) {
-          if (!confirm("Replace current canvas with imported Tracery grammar?")) return;
-        }
-
-        const { nodes: newNodes, edges: newEdges } = compileTraceryGrammar(parsed, isDarkMode);
-        setNodes(newNodes);
-        setEdges(newEdges);
-        setTitle(file.name.replace(/\.(json|py|txt)$/, ""));
-
-        requestAnimationFrame(() => {
-          reactFlowInstanceRef.current?.fitView();
-        });
-      } catch (error) {
-        console.error("Error importing Tracery grammar:", error);
-        alert("Error parsing file. Make sure it's valid JSON or Python dict syntax.");
-      }
-    };
-    reader.readAsText(file);
-    event.target.value = "";
-  }, [isDarkMode, nodes.length]);
 
   const onSelectionChange = useCallback<OnSelectionChangeFunc>(({ nodes, edges }) => {
     setSelectedNodes(nodes as Node<NodeData>[]);
@@ -624,7 +599,6 @@ export default function App({ initialFlowId }: { initialFlowId?: string } = {}) 
         onTitleChange={setTitle}
         onHelp={() => setShowHelp(true)}
         onClear={clearCanvas}
-        onImportTracery={importTracery}
       />
       <ReactFlow
         nodes={nodes}
