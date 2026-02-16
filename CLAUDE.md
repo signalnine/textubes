@@ -477,3 +477,20 @@ Flows can be published and shared via `/s/{flowId}` URLs. The published view (`c
 - `tsconfig.json` configured with DOM libraries for browser APIs
 - All nodes use `NodeProps<Node<NodeData>>` typing
 - React Flow hooks are fully typed
+
+## Improvement TODOs:
+
+- add Input text nodes: single character, single line
+- Refactor "Join" node to take separator text as its first input, arguments to join as subsequent inputs 
+
+## Node type TODOs:
+
+- Japanese katakana-hiragana-romaji nodes
+- Intl.Segmenter node
+
+## Major Feature TODOs:
+
+- "List" data type and nodes for iterative processing
+- Simple admin interface for viewing shared flows 
+- Simple logging/metrics
+- Export flow as runnable Javascript function 

@@ -18,10 +18,14 @@ import block from 'figlet/fonts/Block';
 import lean from 'figlet/fonts/Lean';
 import ansiShadow from 'figlet/fonts/ANSI Shadow';
 import threeD from 'figlet/fonts/3-D';
-import ghost from 'figlet/fonts/Ghost';
+import future from 'figlet/fonts/Future';
 import script from 'figlet/fonts/Script';
 import ivrit from 'figlet/fonts/Ivrit';
 import thick from 'figlet/fonts/Thick';
+import blurVisionASCII from 'figlet/fonts/BlurVision ASCII';
+import tmplr from 'figlet/fonts/Tmplr';
+import dietCola from 'figlet/fonts/Diet Cola';
+
 
 // Pre-parse all fonts so textSync works immediately
 figlet.parseFont("Standard", standard);
@@ -35,10 +39,14 @@ figlet.parseFont("Block", block);
 figlet.parseFont("Lean", lean);
 figlet.parseFont("ANSI Shadow", ansiShadow);
 figlet.parseFont("3-D", threeD);
-figlet.parseFont("Ghost", ghost);
+figlet.parseFont("Future", future);
 figlet.parseFont("Script", script);
 figlet.parseFont("Ivrit", ivrit);
 figlet.parseFont("Thick", thick);
+figlet.parseFont("BlurVision ASCII", blurVisionASCII);
+figlet.parseFont("Tmplr", tmplr);
+figlet.parseFont("Diet Cola", dietCola);
+
 
 const FONTS = [
   "Standard",
@@ -52,10 +60,13 @@ const FONTS = [
   "Lean",
   "ANSI Shadow",
   "3-D",
-  "Ghost",
+  "Future",
   "Script",
   "Ivrit",
   "Thick",
+  "BlurVision ASCII",
+  "Tmplr",
+  "Diet Cola",
 ] as const;
 
 type FigletFont = typeof FONTS[number];
