@@ -24,6 +24,9 @@ import ZalgoNode from "./components/ZalgoNode";
 import Rot13Node from "./components/Rot13Node";
 import ShuffleNode from "./components/ShuffleNode";
 import FigletNode from "./components/FigletNode";
+import PluralizeNode from "./components/PluralizeNode";
+import ArticleNode from "./components/ArticleNode";
+import PastTenseNode from "./components/PastTenseNode";
 import { HELP_TEXT } from "./components/HelpNode";
 import type { NodeData } from "./App";
 
@@ -398,6 +401,36 @@ export const NODE_REGISTRY: Record<string, NodeConfig> = {
         { label: "Output", description: "Template with tokens replaced" }
       ]
     }
+  },
+  pluralize: {
+    component: PluralizeNode,
+    label: "Pluralize",
+    category: 'transformer',
+    help: {
+      description: "Applies simple English pluralization rules. Handles common patterns: -s, -es, -ies.",
+      inputs: [{ label: "Input", description: "Word to pluralize" }],
+      outputs: [{ label: "Output", description: "Pluralized word" }],
+    },
+  },
+  article: {
+    component: ArticleNode,
+    label: "Article (a/an)",
+    category: 'transformer',
+    help: {
+      description: "Prepends 'a' or 'an' based on whether the word starts with a vowel.",
+      inputs: [{ label: "Input", description: "Word to add article to" }],
+      outputs: [{ label: "Output", description: "Word with article prepended" }],
+    },
+  },
+  pasttense: {
+    component: PastTenseNode,
+    label: "Past Tense",
+    category: 'transformer',
+    help: {
+      description: "Applies simple English past tense rules: -ed, -d, or -ied.",
+      inputs: [{ label: "Input", description: "Word to convert" }],
+      outputs: [{ label: "Output", description: "Word in past tense" }],
+    },
   },
   result: {
     component: ResultNode,

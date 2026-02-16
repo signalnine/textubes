@@ -103,14 +103,14 @@ export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, on
         <button
           className="node-picker-button"
           onClick={() => fileInputRef.current?.click()}
-          title="Import flow from JSON"
+          title="Load flow or Tracery grammar"
         >
           Load
         </button>
         <input
           ref={fileInputRef}
           type="file"
-          accept=".json"
+          accept=".json,.py,.txt"
           onChange={onImport}
           style={{ display: 'none' }}
         />
