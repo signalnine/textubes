@@ -26,24 +26,39 @@ export default function TemplateNode({ id, data, selected, type }: NodeProps<Nod
     ? ((templateNodeData[0]?.data as NodeData | undefined)?.value ?? '')
     : '';
 
-  // Parse template for __TOKEN__ patterns
-  const regex = /__([^_]+)__/g;
+  // Parse template for __TOKEN__ patterns (lazy \w+? allows underscores inside tokens)
+  const regex = /__(\w+?)__/g;
   const matches = [...template.matchAll(regex)];
 
   // Build list of unique tokens and their handle IDs
   const tokens: Array<{ token: string; handleId: string }> = [];
   const seenTokens = new Set<string>();
 
-  matches.forEach((match) => {
-    const token = match[1];
-    if (!seenTokens.has(token)) {
-      seenTokens.add(token);
-      tokens.push({
-        token,
-        handleId: `token-${token}`
-      });
+  if (matches.length > 0) {
+    // Normal path: derive tokens from connected template text
+    matches.forEach((match) => {
+      const token = match[1];
+      if (!seenTokens.has(token)) {
+        seenTokens.add(token);
+        tokens.push({
+          token,
+          handleId: `token-${token}`
+        });
+      }
+    });
+  } else if ((data as any).initialTokens?.length) {
+    // Fallback: use pre-computed tokens (e.g. from Tracery compiler) so handles
+    // exist on first render before template data flows through the connection
+    for (const token of (data as any).initialTokens as string[]) {
+      if (!seenTokens.has(token)) {
+        seenTokens.add(token);
+        tokens.push({
+          token,
+          handleId: `token-${token}`
+        });
+      }
     }
-  });
+  }
 
   // Get connections by handle ID (excluding the template handle)
   const handleConnections = new Map<string, string>();

@@ -349,12 +349,36 @@ export function compileTraceryGrammar(
       const templateId = makeId("template", key);
       const rsId = makeId("randomselection", key);
 
+      // Pre-compute token list so Template can render handles on first mount
+      // (avoids timing race with React Flow edge creation on large grammars)
+      const refs = rulesWithRefs.get(key)!;
+      const uniqueTokens: string[] = [];
+      const seenPlaceholders = new Set<string>();
+      for (const ref of refs) {
+        const placeholder = refToPlaceholder(ref);
+        if (!seenPlaceholders.has(placeholder)) {
+          seenPlaceholders.add(placeholder);
+          uniqueTokens.push(placeholder.slice(2, -2)); // strip __ prefix/suffix
+        }
+      }
+
+      // Declare handles on the node so React Flow can validate edges
+      // before ResizeObserver measures the DOM (avoids error #008).
+      const templateHandles: Array<{ type: string; position: string; id?: string }> = [
+        { type: "source", position: "right" },
+        { type: "target", position: "left", id: "template" },
+      ];
+      for (const token of uniqueTokens) {
+        templateHandles.push({ type: "target", position: "left", id: `token-${token}` });
+      }
+
       nodes.push({
         id: templateId,
         type: "template",
         position: { x: 0, y: 0 },
-        data: { value: "", isDarkMode },
-      });
+        data: { value: "", isDarkMode, initialTokens: uniqueTokens },
+        handles: templateHandles,
+      } as any);
 
       nodes.push({
         id: rsId,
