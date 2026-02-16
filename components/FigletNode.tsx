@@ -23,7 +23,7 @@ import script from 'figlet/fonts/Script';
 import ivrit from 'figlet/fonts/Ivrit';
 import thick from 'figlet/fonts/Thick';
 import blurVisionASCII from 'figlet/fonts/BlurVision ASCII';
-import tmplr from 'figlet/fonts/Tmplr';
+import tmplr from 'figlet/fonts/tmplr';
 import dietCola from 'figlet/fonts/Diet Cola';
 
 
