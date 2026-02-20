@@ -4,7 +4,7 @@ import NodeContainer from './NodeContainer';
 import HelpLabel from './HelpLabel';
 import { getNodeCategory, getNodeHelp } from '../nodeRegistry';
 
-type SourceNodeData = NodeData & {
+type SingleCharNodeData = NodeData & {
   rawText?: string;
   parseEscapes?: boolean;
 };
@@ -15,23 +15,26 @@ function processEscapes(text: string): string {
   );
 }
 
-export default function SourceNode({ data, id, selected, type }: NodeProps<Node<SourceNodeData>>) {
+export default function SingleCharNode({ data, id, selected, type }: NodeProps<Node<SingleCharNodeData>>) {
   const { updateNodeData } = useReactFlow();
   const helpInfo = getNodeHelp(type);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const raw = e.target.value;
-    updateNodeData(id, {
-      rawText: raw,
-      value: data.parseEscapes ? processEscapes(raw) : raw,
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (data.parseEscapes) {
+      const raw = e.target.value.slice(0, 2);
+      updateNodeData(id, { rawText: raw, value: processEscapes(raw) });
+    } else {
+      const raw = e.target.value.slice(0, 1);
+      updateNodeData(id, { rawText: raw, value: raw });
+    }
   };
 
   const handleToggleEscapes = (e: React.ChangeEvent<HTMLInputElement>) => {
     const enabled = e.target.checked;
-    const raw = data.rawText ?? data.value ?? '';
+    const raw = (data.rawText ?? data.value ?? '').slice(0, enabled ? 2 : 1);
     updateNodeData(id, {
       parseEscapes: enabled,
+      rawText: raw,
       value: enabled ? processEscapes(raw) : raw,
     });
   };
@@ -54,22 +57,24 @@ export default function SourceNode({ data, id, selected, type }: NodeProps<Node<
       <NodeContainer
         id={id}
         selected={selected}
-        title="Text Block"
-        style={{ minWidth: '200px' }}
+        title="Character"
+        style={{ minWidth: '120px' }}
         isDarkMode={data.isDarkMode}
         category={getNodeCategory(type)}
         onHelpToggle={toggleHelp}
         helpActive={data.helpActive}
       >
         <div className="node-description">
-          Enter text manually
+          Single character input
         </div>
-        <textarea
-          className="nodrag node-textarea"
+        <input
+          className="nodrag node-input"
+          type="text"
           value={data.rawText ?? data.value ?? ''}
           onChange={handleChange}
-          placeholder="Enter text here..."
-          maxLength={10000}
+          placeholder="□"
+          maxLength={data.parseEscapes ? 2 : 1}
+          style={{ textAlign: 'center', fontSize: '24px', height: '44px', width: '10rem', fontFamily: 'monospace' }}
         />
         <label className="nodrag node-label" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', marginTop: '4px', opacity: 0.7, cursor: 'pointer' }}>
           <input

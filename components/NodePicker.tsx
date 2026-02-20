@@ -28,6 +28,7 @@ export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, on
   }, []);
 
   // Group nodes by category
+  const inputs = Object.entries(NODE_REGISTRY).filter(([_, config]) => config.category === 'input');
   const sources = Object.entries(NODE_REGISTRY).filter(([_, config]) => config.category === 'source');
   const transformers = Object.entries(NODE_REGISTRY).filter(([_, config]) => config.category === 'transformer');
   const destinations = Object.entries(NODE_REGISTRY).filter(([_, config]) => config.category === 'destination');
@@ -49,7 +50,14 @@ export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, on
           <option value="" disabled>
             Add node...
           </option>
-          <optgroup label="Sources">
+          <optgroup label="Text Inputs">
+            {inputs.map(([key, config]) => (
+              <option key={key} value={key}>
+                {config.label}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label="Text Generators">
             {sources.map(([key, config]) => (
               <option key={key} value={key}>
                 {config.label}

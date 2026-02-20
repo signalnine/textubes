@@ -1,4 +1,6 @@
 import SourceNode from "./components/SourceNode";
+import SingleLineNode from "./components/SingleLineNode";
+import SingleCharNode from "./components/SingleCharNode";
 import ResultNode from "./components/ResultNode";
 import CapslockNode from "./components/CapslockNode";
 import ReplaceNode from "./components/ReplaceNode";
@@ -42,7 +44,7 @@ export type NodeConfig = {
   /** Function to generate initial data for the node */
   initialData?: () => Record<string, any>;
   /** Category for organizing nodes in the picker */
-  category: 'source' | 'transformer' | 'destination';
+  category: 'input' | 'source' | 'transformer' | 'destination';
   /** Help documentation for the node */
   help?: NodeHelp;
 };
@@ -50,12 +52,34 @@ export type NodeConfig = {
 export const NODE_REGISTRY: Record<string, NodeConfig> = {
   source: {
     component: SourceNode,
-    label: "Text",
-    category: 'source',
+    label: "Text Block",
+    category: 'input',
     help: {
       description: "A text input node where you can manually type or paste text. Text nodes become editable inputs in a published flow, unless the \"Hide in published view\" checkbox is checked.",
       outputs: [
         { label: "Output", description: "The text you entered" }
+      ]
+    }
+  },
+  sourceline: {
+    component: SingleLineNode,
+    label: "Single Line",
+    category: 'input',
+    help: {
+      description: "A single-line text input. Newlines are stripped from pasted content.",
+      outputs: [
+        { label: "Output", description: "The text you entered" }
+      ]
+    }
+  },
+  sourcechar: {
+    component: SingleCharNode,
+    label: "Character",
+    category: 'input',
+    help: {
+      description: "A single-character text input. Useful as a separator or delimiter value.",
+      outputs: [
+        { label: "Output", description: "The character you entered" }
       ]
     }
   },
@@ -462,7 +486,7 @@ export function getInitialNodeData(nodeType: string): NodeData {
 }
 
 /** Get category for a node type */
-export function getNodeCategory(nodeType: string): 'source' | 'transformer' | 'destination' | undefined {
+export function getNodeCategory(nodeType: string): 'input' | 'source' | 'transformer' | 'destination' | undefined {
   return NODE_REGISTRY[nodeType]?.category;
 }
 

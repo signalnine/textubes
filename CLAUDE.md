@@ -481,7 +481,8 @@ Flows can be published and shared via `/s/{flowId}` URLs. The published view (`c
 ## Improvement TODOs:
 
 - add Input text nodes: single character, single line
-- Refactor "Join" node to take separator text as its first input, arguments to join as subsequent inputs 
+- Refactor "Join" node to take separator text as its first input, arguments to join as subsequent inputs
+- Show invisible/whitespace characters in input text nodes
 
 ## Node type TODOs:
 

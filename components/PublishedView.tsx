@@ -68,7 +68,7 @@ export default function PublishedView() {
 
   // Find source and result nodes
   const sourceNodes = useMemo(
-    () => nodes.filter((n) => n.type === "source" && !n.data.lockedInPublished),
+    () => nodes.filter((n) => ["source", "sourceline", "sourcechar"].includes(n.type ?? "") && !n.data.lockedInPublished),
     [nodes]
   );
   const resultNodes = useMemo(
@@ -239,25 +239,66 @@ export default function PublishedView() {
             >
               Input
             </label>
-            <textarea
-              value={node.data.value || ""}
-              onChange={(e) => handleInputChange(node.id, e.target.value)}
-              placeholder={node.data.value || "Enter text..."}
-              maxLength={10000}
-              style={{
-                width: "100%",
-                minHeight: "100px",
-                padding: "0.5rem",
-                fontSize: "0.875rem",
-                fontFamily:
-                  "ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace",
-                border: `1px solid ${borderColor}`,
-                borderRadius: "0.5rem",
-                background: inputBg,
-                color: textColor,
-                resize: "vertical",
-              }}
-            />
+            {node.type === "sourcechar" ? (
+              <input
+                type="text"
+                value={node.data.value || ""}
+                onChange={(e) => handleInputChange(node.id, e.target.value)}
+                placeholder="?"
+                maxLength={1}
+                style={{
+                  width: "3rem",
+                  padding: "0.5rem",
+                  fontSize: "1.5rem",
+                  textAlign: "center",
+                  fontFamily:
+                    "ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace",
+                  border: `1px solid ${borderColor}`,
+                  borderRadius: "0.5rem",
+                  background: inputBg,
+                  color: textColor,
+                }}
+              />
+            ) : node.type === "sourceline" ? (
+              <input
+                type="text"
+                value={node.data.value || ""}
+                onChange={(e) => handleInputChange(node.id, e.target.value.replace(/[\r\n]/g, ''))}
+                placeholder="Enter text..."
+                maxLength={10000}
+                style={{
+                  width: "100%",
+                  padding: "0.5rem",
+                  fontSize: "0.875rem",
+                  fontFamily:
+                    "ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace",
+                  border: `1px solid ${borderColor}`,
+                  borderRadius: "0.5rem",
+                  background: inputBg,
+                  color: textColor,
+                }}
+              />
+            ) : (
+              <textarea
+                value={node.data.value || ""}
+                onChange={(e) => handleInputChange(node.id, e.target.value)}
+                placeholder={node.data.value || "Enter text..."}
+                maxLength={10000}
+                style={{
+                  width: "100%",
+                  minHeight: "100px",
+                  padding: "0.5rem",
+                  fontSize: "0.875rem",
+                  fontFamily:
+                    "ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace",
+                  border: `1px solid ${borderColor}`,
+                  borderRadius: "0.5rem",
+                  background: inputBg,
+                  color: textColor,
+                  resize: "vertical",
+                }}
+              />
+            )}
           </div>
         ))}
 

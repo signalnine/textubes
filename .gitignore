@@ -37,6 +37,7 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # LLM instrux
 .claude
 CLAUDE.md
+docs/plans
 
 # Data
 textubes.db

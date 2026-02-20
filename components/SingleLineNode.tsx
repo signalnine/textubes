@@ -4,7 +4,7 @@ import NodeContainer from './NodeContainer';
 import HelpLabel from './HelpLabel';
 import { getNodeCategory, getNodeHelp } from '../nodeRegistry';
 
-type SourceNodeData = NodeData & {
+type SingleLineNodeData = NodeData & {
   rawText?: string;
   parseEscapes?: boolean;
 };
@@ -15,12 +15,13 @@ function processEscapes(text: string): string {
   );
 }
 
-export default function SourceNode({ data, id, selected, type }: NodeProps<Node<SourceNodeData>>) {
+export default function SingleLineNode({ data, id, selected, type }: NodeProps<Node<SingleLineNodeData>>) {
   const { updateNodeData } = useReactFlow();
   const helpInfo = getNodeHelp(type);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const raw = e.target.value;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Strip any newlines that could come in via paste
+    const raw = e.target.value.replace(/[\r\n]/g, '');
     updateNodeData(id, {
       rawText: raw,
       value: data.parseEscapes ? processEscapes(raw) : raw,
@@ -54,7 +55,7 @@ export default function SourceNode({ data, id, selected, type }: NodeProps<Node<
       <NodeContainer
         id={id}
         selected={selected}
-        title="Text Block"
+        title="Single Line"
         style={{ minWidth: '200px' }}
         isDarkMode={data.isDarkMode}
         category={getNodeCategory(type)}
@@ -62,10 +63,11 @@ export default function SourceNode({ data, id, selected, type }: NodeProps<Node<
         helpActive={data.helpActive}
       >
         <div className="node-description">
-          Enter text manually
+          Single-line text input
         </div>
-        <textarea
-          className="nodrag node-textarea"
+        <input
+          className="nodrag node-input"
+          type="text"
           value={data.rawText ?? data.value ?? ''}
           onChange={handleChange}
           placeholder="Enter text here..."
@@ -78,7 +80,7 @@ export default function SourceNode({ data, id, selected, type }: NodeProps<Node<
             checked={!!data.parseEscapes}
             onChange={handleToggleEscapes}
           />
-          Parse escape sequences (\n, \t, \_, \\)
+          Parse escape sequences (\t, \_, \\)
         </label>
         <label className="nodrag node-label" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', marginTop: '4px', opacity: 0.7, cursor: 'pointer' }}>
           <input

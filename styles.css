@@ -273,13 +273,15 @@ button:active {
 }
 
 /* Node category colors - colorblind-safe palette */
-/* Sources: Blue */
+/* Text Inputs + Sources: Blue */
+.node-header-input,
 .node-header-source {
   background: #0173b2 !important;
   color: white !important;
   border-bottom-color: #015a8c !important;
 }
 
+.dark-mode .node-header-input,
 .dark-mode .node-header-source {
   background: #0173b2 !important;
   color: white !important;
@@ -313,6 +315,7 @@ button:active {
 }
 
 /* Update delete button color for colored headers */
+.node-header-input button,
 .node-header-source button,
 .node-header-transformer button,
 .node-header-destination button {
@@ -321,6 +324,7 @@ button:active {
   color: white !important;
 }
 
+.node-header-input button:hover,
 .node-header-source button:hover,
 .node-header-transformer button:hover,
 .node-header-destination button:hover {
@@ -815,6 +819,7 @@ button:active {
   color: #aaa;
 }
 
+.node-header-input .node-help-button,
 .node-header-source .node-help-button,
 .node-header-transformer .node-help-button,
 .node-header-destination .node-help-button {
@@ -823,6 +828,7 @@ button:active {
   color: white !important;
 }
 
+.node-header-input .node-help-button:hover,
 .node-header-source .node-help-button:hover,
 .node-header-transformer .node-help-button:hover,
 .node-header-destination .node-help-button:hover {
