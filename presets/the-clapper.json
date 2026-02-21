@@ -35,7 +35,7 @@
         "width": 300,
         "height": 303
       },
-      "selected": true,
+      "selected": false,
       "dragging": false
     },
     {
@@ -68,7 +68,8 @@
         "value": " ",
         "isDarkMode": true,
         "parseEscapes": true,
-        "rawText": "\\_"
+        "rawText": "\\_",
+        "lockedInPublished": true
       },
       "measured": {
         "width": 196,
@@ -88,7 +89,8 @@
         "value": " 👏 ",
         "isDarkMode": true,
         "parseEscapes": true,
-        "rawText": "\\_👏\\_"
+        "rawText": "\\_👏\\_",
+        "lockedInPublished": true
       },
       "measured": {
         "width": 200,

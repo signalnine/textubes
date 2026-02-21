@@ -6,6 +6,7 @@ import quickUnicodeConverter from '../presets/quick-unicode-converter.json';
 import infiniteJest from '../presets/infinite-jest.json';
 import wippSignBunny from '../presets/wipp-sign-bunny.json';
 import theClapper from '../presets/the-clapper.json';
+import wowExcessive from '../presets/wow-excessive.json';
 
 
 export type PresetMetadata = {
@@ -29,6 +30,7 @@ const PRESET_REGISTRY: Record<string, PresetData> = {
   'infinite-jest': infiniteJest as PresetData,
   'wipp-sign-bunny': wippSignBunny as PresetData,
   'the-clapper': theClapper as PresetData,
+  'wow-excessive': wowExcessive as PresetData,
 };
 
 /**
@@ -52,15 +54,15 @@ export function getAvailablePresets(): PresetMetadata[] {
       description: 'ASCII art generation pipeline'
     },
     {
-      id: 'wow-excessive',
-      displayName: 'Wow, Excessive',
-      description: 'Random part of speech generation demo'
-    },
-    {
       id: 'the-clapper',
       displayName: 'The Clapper',
       description: 'Per-word manual percussive emphasis'
-    }    
+    },
+    {
+      id: 'wow-excessive',
+      displayName: 'Wow, Excessive',
+      description: 'Random part-of-speech selection demo'
+    },
   ];
 }
 
