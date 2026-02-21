@@ -150,7 +150,7 @@ export default function JoinNode({ id, data, selected, type }: NodeProps<Node<Jo
               type="text"
               value={data.rawSeparator ?? data.separator ?? ''}
               onChange={handleSeparatorChange}
-              placeholder="(none)"
+              placeholder="Type or connect separator"
             />
             <label className="nodrag node-label" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', marginTop: '4px', opacity: 0.7, cursor: 'pointer' }}>
               <input
@@ -161,9 +161,13 @@ export default function JoinNode({ id, data, selected, type }: NodeProps<Node<Jo
               />
               Parse escapes (\n, \t, \_, \\)
             </label>
-            <div className="node-info">
-              Inputs: {connectedInputCount}
-            </div>
+          </div>
+        )}
+
+        {/* Separator input label */}
+        {separatorSourceId && (
+          <div className={data.isDarkMode ? "handle-label-dark" : "handle-label"}>
+            Separator
           </div>
         )}
 
@@ -187,6 +191,10 @@ export default function JoinNode({ id, data, selected, type }: NodeProps<Node<Jo
             helpLabel={data.helpActive ? "Separator" : ""}
             helpDescription={data.helpActive ? (helpInfo?.inputs?.[0]?.description ?? "") : ""}
           />
+        </div>
+
+        <div className="node-info">
+          Inputs: {connectedInputCount}
         </div>
 
         {/* Dynamic input handles */}

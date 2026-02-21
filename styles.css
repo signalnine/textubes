@@ -738,6 +738,17 @@ button:active {
   background: rgba(37, 65, 101, 0.55);
 }
 
+/* Handle labels inside nodes */
+
+.handle-label {
+  font-size: .8rem;
+}
+
+.handle-label-dark {
+  font-size: .8rem;
+  color: #ccc;
+}
+
 /* Handle-based help labels */
 .handle-help-label {
   position: absolute;
