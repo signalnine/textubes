@@ -27,11 +27,12 @@ export default function NodePicker({ onAddNode, isDarkMode, onToggleDarkMode, on
     setPresets(getAvailablePresets());
   }, []);
 
-  // Group nodes by category
-  const inputs = Object.entries(NODE_REGISTRY).filter(([_, config]) => config.category === 'input');
-  const sources = Object.entries(NODE_REGISTRY).filter(([_, config]) => config.category === 'source');
-  const transformers = Object.entries(NODE_REGISTRY).filter(([_, config]) => config.category === 'transformer');
-  const destinations = Object.entries(NODE_REGISTRY).filter(([_, config]) => config.category === 'destination');
+  // Group nodes by category, filtering out hidden nodes
+  const visible = Object.entries(NODE_REGISTRY).filter(([_, config]) => !config.hidden);
+  const inputs = visible.filter(([_, config]) => config.category === 'input');
+  const sources = visible.filter(([_, config]) => config.category === 'source');
+  const transformers = visible.filter(([_, config]) => config.category === 'transformer');
+  const destinations = visible.filter(([_, config]) => config.category === 'destination');
 
   return (
     <div className={`node-picker ${isDarkMode ? 'dark-mode' : ''}`}>

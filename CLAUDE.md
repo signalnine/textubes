@@ -180,10 +180,12 @@ All node components are in `components/` directory.
 - **ReverseNode** - Reverses string character order
 - **TrimPadNode** - Three modes: trim whitespace, pad start, or pad end
 - **RepeatNode** - Repeats input text N times with optional separator
-- **ConcatenateNode** - Joins multiple inputs with optional separator
-  - **Dynamic handles**: Starts with 2 input handles, automatically adds more as they're connected
-  - Order matters: top-to-bottom determines concatenation order
+- **JoinNode** - Joins multiple inputs with a separator
+  - First handle is the separator (labeled "sep") — connectable or fallback text field with escape sequence support
+  - Remaining handles are dynamic input handles: starts with 2, adds more as they're connected
+  - Order matters: top-to-bottom determines join order
   - Connected handles are darker for visual feedback
+- **ConcatenateNode** *(legacy, hidden from picker)* - Old join node with plain-text separator field
 - **TemplateNode** - Template-based text replacement with `__TOKEN__` syntax
   - First input handle accepts the template text
   - Parses template for `__TOKEN__` patterns (double underscore syntax)
@@ -361,7 +363,7 @@ const searchConnections = useNodeConnections({ handleType: 'target', handleId: '
 <Handle type="target" position={Position.Left} id="search" style={{ top: '75px' }} />
 ```
 
-### Dynamic Multiple Handles (ConcatenateNode)
+### Dynamic Multiple Handles (JoinNode, ConcatenateNode)
 
 For nodes that grow to accommodate unlimited inputs:
 
@@ -477,12 +479,6 @@ Flows can be published and shared via `/s/{flowId}` URLs. The published view (`c
 - `tsconfig.json` configured with DOM libraries for browser APIs
 - All nodes use `NodeProps<Node<NodeData>>` typing
 - React Flow hooks are fully typed
-
-## Improvement TODOs:
-
-- add Input text nodes: single character, single line
-- Refactor "Join" node to take separator text as its first input, arguments to join as subsequent inputs
-- Show invisible/whitespace characters in input text nodes
 
 ## Node type TODOs:
 

@@ -29,6 +29,7 @@ import FigletNode from "./components/FigletNode";
 import PluralizeNode from "./components/PluralizeNode";
 import ArticleNode from "./components/ArticleNode";
 import PastTenseNode from "./components/PastTenseNode";
+import JoinNode from "./components/JoinNode";
 import { HELP_TEXT } from "./components/HelpNode";
 import type { NodeData } from "./App";
 
@@ -47,6 +48,8 @@ export type NodeConfig = {
   category: 'input' | 'source' | 'transformer' | 'destination';
   /** Help documentation for the node */
   help?: NodeHelp;
+  /** If true, node is not shown in the picker (for legacy nodes) */
+  hidden?: boolean;
 };
 
 export const NODE_REGISTRY: Record<string, NodeConfig> = {
@@ -266,10 +269,26 @@ export const NODE_REGISTRY: Record<string, NodeConfig> = {
       ]
     }
   },
-  concatenate: {
-    component: ConcatenateNode,
+  join: {
+    component: JoinNode,
     label: "Join",
     category: 'transformer',
+    help: {
+      description: "Joins multiple text inputs together in order with a separator. The separator can come from a connected node or be typed in directly (with optional escape sequence parsing). Automatically creates new input handles as needed.",
+      inputs: [
+        { label: "Separator", description: "Text placed between inputs" },
+        { label: "Inputs", description: "Text to join (add more by connecting)" }
+      ],
+      outputs: [
+        { label: "Output", description: "All inputs joined with the separator" }
+      ]
+    }
+  },
+  concatenate: {
+    component: ConcatenateNode,
+    label: "Join (legacy)",
+    category: 'transformer',
+    hidden: true,
     help: {
       description: "Joins multiple text inputs together in order, with an optional separator between them. Automatically creates new empty inputs as necessary.",
       inputs: [

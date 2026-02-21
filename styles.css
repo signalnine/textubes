@@ -450,6 +450,14 @@ button:active {
   margin-bottom: 2px;
 }
 
+.node-label-invisible {
+  font-size: 11px;
+  color: #666;
+  display: block;
+  margin-bottom: 2px;
+  display: none;
+}
+
 .dark-mode .node-label {
   color: #aaa;
 }
@@ -713,7 +721,7 @@ button:active {
 .node-help-frame {
   position: absolute;
   top: -1rem;
-  bottom: -3.5rem;
+  bottom: -4.5rem;
   left: -5.25rem;
   right: -5.25rem;
   pointer-events: none;
@@ -735,7 +743,7 @@ button:active {
   position: absolute;
   font-size: 11px;
 
-  width: 4rem;
+  width: 4.5rem;
   pointer-events: none;
   z-index: 1;
   transform: translateY(-50%);
@@ -743,12 +751,12 @@ button:active {
 }
 
 .handle-help-left {
-  right: calc(100% + 15px);
+  right: calc(100% + .4rem);
   text-align: right;
 }
 
 .handle-help-right {
-  left: calc(100% + 15px);
+  left: calc(100% + .4rem);
   text-align: left;
 }
 

@@ -3,17 +3,12 @@ import type { NodeData } from '../App';
 import NodeContainer from './NodeContainer';
 import HelpLabel from './HelpLabel';
 import { getNodeCategory, getNodeHelp } from '../nodeRegistry';
+import { processEscapes } from '../utils/processEscapes';
 
 type SourceNodeData = NodeData & {
   rawText?: string;
   parseEscapes?: boolean;
 };
-
-function processEscapes(text: string): string {
-  return text.replace(/\\(n|t|r|_|\\)/g, (_, c) =>
-    ({ n: '\n', t: '\t', r: '\r', _: ' ', '\\': '\\' } as Record<string, string>)[c] ?? ('\\' + c)
-  );
-}
 
 export default function SourceNode({ data, id, selected, type }: NodeProps<Node<SourceNodeData>>) {
   const { updateNodeData } = useReactFlow();
