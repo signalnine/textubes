@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "title": "Wow, Excessive",
+  "nodes": [
+    {
+      "id": "template-1771686458860",
+      "type": "template",
+      "position": {
+        "x": 145.81386419683093,
+        "y": -17.52277151950267
+      },
+      "data": {
+        "value": "Lo! That yarn is too complementary!",
+        "isDarkMode": true
+      },
+      "measured": {
+        "width": 203,
+        "height": 144
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "randominterjection-1771686463354",
+      "type": "randominterjection",
+      "position": {
+        "x": -389.407784805098,
+        "y": -17.52277151950267
+      },
+      "data": {
+        "value": "lo",
+        "isDarkMode": true,
+        "regenerateTimestamp": 1771686618288
+      },
+      "measured": {
+        "width": 224,
+        "height": 104
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "randomadjective-1771686472203",
+      "type": "randomadjective",
+      "position": {
+        "x": -389.407784805098,
+        "y": 246.93628862760755
+      },
+      "data": {
+        "value": "complementary",
+        "isDarkMode": true,
+        "regenerateTimestamp": 1771686618288
+      },
+      "measured": {
+        "width": 224,
+        "height": 104
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "randomnoun-1771686476672",
+      "type": "randomnoun",
+      "position": {
+        "x": -389.407784805098,
+        "y": 114.70675855405244
+      },
+      "data": {
+        "value": "yarn",
+        "isDarkMode": true,
+        "regenerateTimestamp": 1771686618288
+      },
+      "measured": {
+        "width": 224,
+        "height": 104
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "source-1771686488373",
+      "type": "source",
+      "position": {
+        "x": -137.06098373352097,
+        "y": -246.93628862760755
+      },
+      "data": {
+        "value": "__interjection__! That __noun__ is too __adjective__!",
+        "isDarkMode": true,
+        "rawText": "__interjection__! That __noun__ is too __adjective__!"
+      },
+      "measured": {
+        "width": 200,
+        "height": 214
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "result-1771686579021",
+      "type": "result",
+      "position": {
+        "x": 389.407784805098,
+        "y": -15.692840919380501
+      },
+      "data": {
+        "value": "Lo! That yarn is too complementary!",
+        "isDarkMode": true
+      },
+      "measured": {
+        "width": 300,
+        "height": 303
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "capslock-1771686592668",
+      "type": "capslock",
+      "position": {
+        "x": -137.06098373352097,
+        "y": -17.52277151950267
+      },
+      "data": {
+        "value": "Lo",
+        "mode": "sentence",
+        "isDarkMode": true
+      },
+      "measured": {
+        "width": 224,
+        "height": 97
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-help1-concatenate1",
+      "source": "help1",
+      "target": "concatenate1",
+      "targetHandle": "input-1"
+    },
+    {
+      "id": "e-source1-concatenate1",
+      "source": "source1",
+      "target": "concatenate1"
+    },
+    {
+      "id": "e-concatenate1-result1",
+      "source": "concatenate1",
+      "target": "result1"
+    },
+    {
+      "source": "source-1771686488373",
+      "target": "template-1771686458860",
+      "targetHandle": "template",
+      "id": "xy-edge__source-1771686488373-template-1771686458860template",
+      "selected": false
+    },
+    {
+      "source": "randomnoun-1771686476672",
+      "target": "template-1771686458860",
+      "targetHandle": "token-noun",
+      "id": "xy-edge__randomnoun-1771686476672-template-1771686458860token-noun",
+      "selected": false
+    },
+    {
+      "source": "randomadjective-1771686472203",
+      "target": "template-1771686458860",
+      "targetHandle": "token-adjective",
+      "id": "xy-edge__randomadjective-1771686472203-template-1771686458860token-adjective",
+      "selected": false
+    },
+    {
+      "source": "template-1771686458860",
+      "target": "result-1771686579021",
+      "id": "xy-edge__template-1771686458860-result-1771686579021",
+      "selected": false
+    },
+    {
+      "source": "randominterjection-1771686463354",
+      "target": "capslock-1771686592668",
+      "id": "xy-edge__randominterjection-1771686463354-capslock-1771686592668",
+      "selected": false
+    },
+    {
+      "source": "capslock-1771686592668",
+      "target": "template-1771686458860",
+      "targetHandle": "token-interjection",
+      "id": "xy-edge__capslock-1771686592668-template-1771686458860token-interjection",
+      "selected": false
+    }
+  ],
+  "darkMode": true
+}

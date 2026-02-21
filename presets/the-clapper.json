@@ -6,16 +6,16 @@
       "id": "source-1765465321267",
       "type": "source",
       "position": {
-        "x": -280.9364763571324,
-        "y": -103.39378144833336
+        "x": -275.1380900169594,
+        "y": -197.13173742683927
       },
       "data": {
         "value": "In Xanadu did Kubla Khan a stately pleasure dome decree",
-        "isDarkMode": false
+        "isDarkMode": true
       },
       "measured": {
         "width": 200,
-        "height": 198
+        "height": 214
       },
       "selected": false,
       "dragging": false
@@ -24,31 +24,31 @@
       "id": "result-1765465326724",
       "type": "result",
       "position": {
-        "x": 283.96138416321446,
-        "y": -99.83253940594034
+        "x": 275.1380900169594,
+        "y": -122.15077640483715
       },
       "data": {
         "value": "In 👏 Xanadu 👏 did 👏 Kubla 👏 Khan 👏 a 👏 stately 👏 pleasure 👏 dome 👏 decree",
-        "isDarkMode": false
+        "isDarkMode": true
       },
       "measured": {
         "width": 300,
         "height": 303
       },
-      "selected": false,
+      "selected": true,
       "dragging": false
     },
     {
-      "id": "replace-1765466183858",
+      "id": "replace-1771687153635",
       "type": "replace",
       "position": {
-        "x": 10.778545267578693,
-        "y": -53.74423639193867
+        "x": 8.958647087363104,
+        "y": -50.206221049253955
       },
       "data": {
         "value": "In 👏 Xanadu 👏 did 👏 Kubla 👏 Khan 👏 a 👏 stately 👏 pleasure 👏 dome 👏 decree",
-        "isDarkMode": false,
-        "searchText": " "
+        "isDarkMode": true,
+        "searchText": ""
       },
       "measured": {
         "width": 200,
@@ -58,19 +58,41 @@
       "dragging": false
     },
     {
-      "id": "source-1765466202760",
-      "type": "source",
+      "id": "sourcechar-1771687187401",
+      "type": "sourcechar",
       "position": {
-        "x": -283.96138416321435,
-        "y": 103.39378144833336
+        "x": -270.92876874348224,
+        "y": 30.77079173961735
+      },
+      "data": {
+        "value": " ",
+        "isDarkMode": true,
+        "parseEscapes": true,
+        "rawText": "\\_"
+      },
+      "measured": {
+        "width": 196,
+        "height": 154
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "sourceline-1771687203434",
+      "type": "sourceline",
+      "position": {
+        "x": -269.79699633456096,
+        "y": 197.13173742683927
       },
       "data": {
         "value": " 👏 ",
-        "isDarkMode": false
+        "isDarkMode": true,
+        "parseEscapes": true,
+        "rawText": "\\_👏\\_"
       },
       "measured": {
         "width": 200,
-        "height": 198
+        "height": 135
       },
       "selected": false,
       "dragging": false
@@ -79,21 +101,27 @@
   "edges": [
     {
       "source": "source-1765465321267",
-      "target": "replace-1765466183858",
+      "target": "replace-1771687153635",
       "targetHandle": "text",
-      "id": "xy-edge__source-1765465321267-replace-1765466183858text"
+      "id": "xy-edge__source-1765465321267-replace-1771687153635text"
     },
     {
-      "source": "replace-1765466183858",
-      "target": "result-1765465326724",
-      "id": "xy-edge__replace-1765466183858-result-1765465326724"
+      "source": "sourcechar-1771687187401",
+      "target": "replace-1771687153635",
+      "targetHandle": "search",
+      "id": "xy-edge__sourcechar-1771687187401-replace-1771687153635search"
     },
     {
-      "source": "source-1765466202760",
-      "target": "replace-1765466183858",
+      "source": "sourceline-1771687203434",
+      "target": "replace-1771687153635",
       "targetHandle": "replace",
-      "id": "xy-edge__source-1765466202760-replace-1765466183858replace"
+      "id": "xy-edge__sourceline-1771687203434-replace-1771687153635replace"
+    },
+    {
+      "source": "replace-1771687153635",
+      "target": "result-1765465326724",
+      "id": "xy-edge__replace-1771687153635-result-1765465326724"
     }
   ],
-  "darkMode": false
+  "darkMode": true
 }

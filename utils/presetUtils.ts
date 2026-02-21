@@ -40,7 +40,7 @@ export function getAvailablePresets(): PresetMetadata[] {
       id: 'quick-unicode-converter',
       displayName: 'Quick Unicode Converter',
       description: 'Simple unicode text styling demo'
-    },
+    },    
     {
       id: 'infinite-jest',
       displayName: 'Infinite Jest',
@@ -50,6 +50,11 @@ export function getAvailablePresets(): PresetMetadata[] {
       id: 'wipp-sign-bunny',
       displayName: 'WIPP Sign Bunny',
       description: 'ASCII art generation pipeline'
+    },
+    {
+      id: 'wow-excessive',
+      displayName: 'Wow, Excessive',
+      description: 'Random part of speech generation demo'
     },
     {
       id: 'the-clapper',
